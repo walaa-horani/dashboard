@@ -14,7 +14,7 @@ function Dashboard() {
 
   useEffect(() => {
     // Fetch data from Django API endpoint
-    fetch('http://127.0.0.1:8000/api/')
+    fetch('https://walaadashboard.pythonanywhere.com/api/')
       .then((response) => response.json())
       .then((data) => setStudents(data))
       .catch((error) => console.error('Error fetching data:', error));

@@ -53,9 +53,10 @@ export default function AddStudent() {
   });
 
   const onSubmit = async (data) => {
+    console.log('Data being sent:', data); // Add this line to inspect the data being sent
     try {
       // Make API call using axios
-      const response = await axios.post('http://127.0.0.1:8000/api/', data);
+      const response = await axios.post('https://walaadashboard.pythonanywhere.com/api', data);
       
       // Handle the API response as needed
       console.log(response.data);
@@ -64,6 +65,8 @@ export default function AddStudent() {
       console.error('Error submitting data:', error);
     }
   };
+  
+  
 
   return (
     <form className='container' onSubmit={handleSubmit(onSubmit)}>
