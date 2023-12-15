@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import EditStudent  from './pages/EditStudent';
 import {
  
  
@@ -29,6 +30,7 @@ function App() {
     <Routes>
     <Route index element={<Dashboard />} />
           <Route path="/AddStudent" element={<AddStudent />} />
+          <Route path="/EditStudent/:id" element={<EditStudent />} />
           
          
     </Routes>

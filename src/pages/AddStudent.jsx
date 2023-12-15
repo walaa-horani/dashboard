@@ -56,7 +56,12 @@ export default function AddStudent() {
     console.log('Data being sent:', data); // Add this line to inspect the data being sent
     try {
       // Make API call using axios
-      const response = await axios.post('https://walaadashboard.pythonanywhere.com/api', data);
+      const response = await axios.post('https://walaadashboard.pythonanywhere.com/api', data, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer '+ 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2FwcC5tdWx0aXZlcnNlLXRlY2gub25saW5lL2FwaS9hcHAvdjEvbG9naW4iLCJpYXQiOjE2OTU3MjAyOTcsImV4cCI6MTcxOTc1MDI5NywibmJmIjoxNjk1NzIwMjk3LCJqdGkiOiJuZWw1YU9WQTg2RlM0S20yIiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ._xrQoW-ZYDgYVaNIMZ_YOj7RTrrjTbilG00irYh1wgU'
+      },  
+      });
       
       // Handle the API response as needed
       console.log(response.data);

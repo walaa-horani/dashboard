@@ -4,9 +4,10 @@ import Sidebar from '../partials/Sidebar';
 import Header from '../partials/Header';
 import WelcomeBanner from '../partials/dashboard/WelcomeBanner';
 import { Icon } from '@iconify/react';
-
+import { Link, Navigate } from 'react-router-dom';
 import Banner from '../partials/Banner';
 import { useState, useEffect } from 'react';
+import axios from 'axios';
 function Dashboard() {
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -19,7 +20,7 @@ function Dashboard() {
       .then((data) => setStudents(data))
       .catch((error) => console.error('Error fetching data:', error));
   }, []);
-
+ 
   return (
     <div className="flex h-screen overflow-hidden">
 
@@ -67,10 +68,13 @@ function Dashboard() {
             <table class="table table-striped">
   <thead>
     <tr>
-    <th ><Icon style={{ display:'flex', width:'30px',height:'30px', marginRight: '8px' }} icon="ph:student" />Studen's Name</th>
+    <th ><Icon style={{ display:'flex', width:'30px',height:'30px', marginRight: '8px' }} icon="ph:student" />First Name</th>
+    <th ><Icon style={{ width:'30px',height:'30px', marginRight: '8px' }} icon="arcticons:broken-age" />Last Name</th>
       <th ><Icon style={{ width:'30px',height:'30px', marginRight: '8px' }} icon="arcticons:broken-age" />age</th>
       <th ><Icon style={{ width:'30px',height:'30px', marginRight: '8px' }} icon="healthicons:i-training-class" />Class</th>
       <th ><Icon style={{ width:'30px',height:'30px', marginRight: '8px' }} icon="solar:phone-line-duotone" />Phone</th>
+      <th ><Icon style={{ width:'30px',height:'30px', marginRight: '8px' }} icon="solar:phone-line-duotone" />Nationality</th>
+
     </tr>
   </thead>
   <tbody>
@@ -80,6 +84,9 @@ function Dashboard() {
             <td>{student.age}</td>
             <td>{student.in_class}</td>
             <td>{student.phone}</td>
+            <td>{student.nationality}</td>
+           <td> <Link to={`/EditStudent/${student.id}`}><Icon icon="icon-park:edit" /></Link></td>
+           <td> <button onClick={e=>handleSubmit(student.id)} ><Icon icon="icon-park:delete" /></button></td>
           </tr>
         ))}
       </tbody>
@@ -96,6 +103,21 @@ function Dashboard() {
       </div>
     </div>
   );
+  function handleSubmit(id) {
+    const conf = window.confirm('Do you want to delete?');
+  
+    if (conf) {
+      axios.delete('https://walaadashboard.pythonanywhere.com/api/'+id)
+        .then(res => {
+          alert('Deleted');
+          Navigate('https://walaadashboard.pythonanywhere.com/api/')
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
+  }
 }
+
 
 export default Dashboard;
