@@ -1,23 +1,25 @@
 import React from 'react';
 
-import Sidebar from '../partials/Sidebar';
-import Header from '../partials/Header';
-import WelcomeBanner from '../partials/dashboard/WelcomeBanner';
+import Sidebar from '../../partials/Sidebar';
+import Header from '../../partials/Header';
+import WelcomeBanner from '../../partials/dashboard/WelcomeBanner';
 import { Icon } from '@iconify/react';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
-import Banner from '../partials/Banner';
+import { Link, Navigate } from 'react-router-dom';
+import Banner from '../../partials/Banner';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import { useNavigate, useParams } from 'react-router-dom';
 
-function Dashboard() {
+function Teachers() {
 
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [students, setStudents] = useState([]);
+  const [teachers, setTeachers] = useState([]);
   const [open, setOpen] = useState(false);
   const [idToDelete, setIdToDelete] = useState(null);
   const navigate = useNavigate()
+
   const handleClickOpen = (id) => {
     setIdToDelete(id);
     setOpen(true);
@@ -31,17 +33,17 @@ function Dashboard() {
 
   useEffect(() => {
     // Fetch data from Django API endpoint
-    fetch('https://walaadashboard.pythonanywhere.com/api/students/')
+    fetch('https://walaadashboard.pythonanywhere.com/api/teachers')
       .then((response) => response.json())
-      .then((data) => setStudents(data))
+      .then((data) => setTeachers(data))
       .catch((error) => console.error('Error fetching data:', error));
   }, []);
   const handleDelete = () => {
     if (idToDelete) {
-      axios.delete(`https://walaadashboard.pythonanywhere.com/api/students/${idToDelete}`)
+      axios.delete(`https://walaadashboard.pythonanywhere.com/api/teachers/${idToDelete}`)
         .then(res => {
           // If the deletion is successful, update the state to trigger a re-render
-          setStudents(prevStudents => prevStudents.filter(student => student.id !== idToDelete));
+          setTeachers(prevteachers => prevteachers.filter(teacher => teacher.id !== idToDelete));
           // Close the dialog
           handleClose();
           // Navigate to '/'
@@ -67,29 +69,28 @@ function Dashboard() {
         <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
         <main>
-          <div className="px-4  sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
-
-            <WelcomeBanner />
+          <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
 
            
-                <div style={{float:'right'}}>
+            <WelcomeBanner />
+
+            
+            <div style={{float:'right'}}>
                 <button style={{float:'right'}} className="btn mb-5 bg-indigo-500 hover:bg-indigo-600 text-white">
                     <svg className="w-4 h-4 fill-current opacity-50 shrink-0" viewBox="0 0 16 16">
                         <path d="M15 7H9V1c0-.6-.4-1-1-1S7 .4 7 1v6H1c-.6 0-1 .4-1 1s.4 1 1 1h6v6c0 .6.4 1 1 1s1-.4 1-1V9h6c.6 0 1-.4 1-1s-.4-1-1-1z" />
                     </svg>
                     <Link
-      to="/AddStudent"
+      to="/AddTeacher"
       className="hidden xs:block ml-2"
       style={{ transition: '#fff', textDecoration: 'none', color: '#fff' }}
       onMouseOver={(e) => (e.target.style.color =  '#fff')}
       onMouseOut={(e) => (e.target.style.color = '#fff')}  >
-      Add Student
+      Add Teacher
     </Link>      
      </button>  
-      </div>              
-              
-
-         
+      </div>  
+           
 
             {/* Cards */}
             <div className="container w-100">
@@ -109,19 +110,19 @@ function Dashboard() {
     </tr>
   </thead>
   <tbody>
-        {students.map((student) => (
-          <tr className='text-center' key={student.id}>
-            <td >{student.firstName} {student.lastName}</td>
+        {teachers.map((teacher) => (
+          <tr className='text-center' key={teacher.id}>
+            <td >{teacher.firstName} {teacher.lastName}</td>
             
-            <td>{student.age}</td>
-            <td>{student.fatherName}</td>
-            <td>{student.motherName}</td>
-            <td>{student.in_class}</td>
-            <td>{student.phone}</td>
-            <td>{student.nationality}</td>
+            <td>{teacher.age}</td>
+            <td>{teacher.fatherName}</td>
+            <td>{teacher.motherName}</td>
+            <td>{teacher.in_class}</td>
+            <td>{teacher.phone}</td>
+            <td>{teacher.nationality}</td>
             
-           <td style={{width:'50px'}}> <Link to={`/EditStudent/${student.id}`}><Icon style={{fontSize:'24px'}} icon="openmoji:edit" /></Link></td>
-           <td  style={{ fontSize:'24px',width:'50px'}} > <button onClick={() => handleClickOpen(student.id)} ><Icon   icon="flat-color-icons:delete-row" /></button></td>
+           <td style={{width:'50px'}}> <Link to={`/Editteacher/${teacher.id}`}><Icon style={{fontSize:'24px'}} icon="openmoji:edit" /></Link></td>
+           <td  style={{ fontSize:'24px',width:'50px'}} > <button onClick={() => handleClickOpen(teacher.id)} ><Icon   icon="flat-color-icons:delete-row" /></button></td>
            <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Delete Confirmation</DialogTitle>
         <DialogContent>
@@ -158,4 +159,4 @@ function Dashboard() {
 }
 
 
-export default Dashboard;
+export default Teachers;
