@@ -47,7 +47,7 @@ function Teachers() {
           // Close the dialog
           handleClose();
           // Navigate to '/'
-          navigate('/');
+          navigate('/teachers');
         })
         .catch(err => {
           console.log(err);

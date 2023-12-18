@@ -56,32 +56,33 @@ export default function AddStudent() {
     resolver: useYupValidationResolver(validationSchema),
   });
   const navigate = useNavigate()
-  const [open, setOpen] = useState(false);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
 
   const onSubmit = async (data) => {
-    console.log('Data being sent:', data); // Add this line to inspect the data being sent
+    console.log('Data being sent:', data);
+
     try {
+      // Open the Snackbar before making the API call
+      setOpenSnackbar(true);
+
       // Make API call using axios
       const response = await axios.post('https://walaadashboard.pythonanywhere.com/api/teachers/', data);
-      navigate('/teachers')
-      
+
       // Handle the API response as needed
       console.log(response.data);
+
+      // Navigate after a delay or based on some condition
+      setTimeout(() => {
+        navigate('/teachers');
+      }, 2000); // Adjust the delay as needed
     } catch (error) {
       // Handle API error
       console.error('Error submitting data:', error);
     }
   };
-  const handleClick = () => {
-    setOpen(true);
-  };
 
-  const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-
-    setOpen(false);
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false);
   };
   
 
@@ -202,12 +203,13 @@ export default function AddStudent() {
 />
 
      
-      <Button onClick={handleClick} type="submit" variant="contained" color="primary">
-       Add   <Icon style={{marginLeft:'6px'}} icon="ic:baseline-plus" />
-     </Button>
-     <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-        <Alert variant="filled"  onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-          Created Successfully !
+<Button type="submit" variant="contained" color="primary">
+        Add <Icon style={{ marginLeft: '6px' }} icon="ic:baseline-plus" />
+      </Button>
+
+      <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
+        <Alert variant="filled" onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
+          Created Successfully!
         </Alert>
       </Snackbar>
     </form>
