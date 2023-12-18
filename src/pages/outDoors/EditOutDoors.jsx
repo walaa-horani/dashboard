@@ -18,7 +18,7 @@ const EditOutDoors = () => {
       place: '',
     });
     
-    const [open, setOpen] = useState(false);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
     const [teachers, setTeachers] = useState([]);
     const [students, setStudents] = useState([]);
     const [errors, setErrors] = useState({
@@ -114,6 +114,7 @@ const EditOutDoors = () => {
         // If the form is valid, proceed with the axios request
         axios.put(`https://walaadashboard.pythonanywhere.com/api/outdoor/${id}/`, data)
           .then(res => {
+            setOpenSnackbar(true);
             setTimeout(() => {
               navigate('/outdoors');
             }, 1000);
@@ -127,17 +128,10 @@ const EditOutDoors = () => {
     
   
   
-    const handleClick = () => {
-      setOpen(true);
+    const handleCloseSnackbar = () => {
+      setOpenSnackbar(false);
     };
   
-    const handleClose = (event, reason) => {
-      if (reason === 'clickaway') {
-        return;
-      }
-  
-      setOpen(false);
-    };
   return (
     <div><form onSubmit={handleSubmit} className='container' >
     <h1 className=' display-5 text-center m-5'>Edit  OutDoors </h1>
@@ -240,15 +234,15 @@ const EditOutDoors = () => {
      
         
 
-     <Button onClick={handleClick} type="submit" variant="contained" color="primary">
-       Update  <Icon style={{marginLeft:'6px'}} icon="ic:baseline-plus" />
-     </Button>
-     <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-        <Alert variant="filled"  onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-          The Information Has Been Updated
+       <Button type="submit" variant="contained" color="primary">
+        Update <Icon style={{ marginLeft: '6px' }} icon="ic:baseline-plus" />
+      </Button>
+
+      <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
+        <Alert variant="filled" onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
+        Updated Successfully!
         </Alert>
       </Snackbar>
-     
       
    </form></div>
   )

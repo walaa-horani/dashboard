@@ -19,7 +19,7 @@ const EditChemistry = () => {
       place: '',
     });
     
-    const [open, setOpen] = useState(false);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
     const [teachers, setTeachers] = useState([]);
     const [students, setStudents] = useState([]);
     const [errors, setErrors] = useState({
@@ -116,6 +116,7 @@ const EditChemistry = () => {
         // If the form is valid, proceed with the axios request
         axios.put(`https://walaadashboard.pythonanywhere.com/api/chemistry/${id}/`, data)
           .then(res => {
+            setOpenSnackbar(true);
             setTimeout(() => {
               navigate('/chemistry');
             }, 1000);
@@ -127,19 +128,11 @@ const EditChemistry = () => {
       }
     }
     
-  
-  
-    const handleClick = () => {
-      setOpen(true);
+    const handleCloseSnackbar = () => {
+      setOpenSnackbar(false);
     };
   
-    const handleClose = (event, reason) => {
-      if (reason === 'clickaway') {
-        return;
-      }
-  
-      setOpen(false);
-    };
+   
   return (
     <div><form onSubmit={handleSubmit} className='container' >
     <h1 className=' display-5 text-center m-5'>Edit a Chemistry</h1>
@@ -150,7 +143,7 @@ const EditChemistry = () => {
     style={{ marginRight: '10px' }}
     label="Teacher"
     name="teacher"
-    error={Boolean(errors.teacher)}
+    error
     value={data.teacher}
     onChange={(e) => setData({ ...data, teacher: e.target.value })}
     inputProps={{
@@ -170,7 +163,7 @@ const EditChemistry = () => {
   <InputLabel htmlFor="student-select">Student</InputLabel>
   <Select
     label="Student"
-    error={Boolean(errors.student)}
+    error
     name="student"
     inputProps={{
       id: 'student-select',
@@ -241,12 +234,13 @@ const EditChemistry = () => {
      
         
 
-     <Button onClick={handleClick} type="submit" variant="contained" color="primary">
-       Update  <Icon style={{marginLeft:'6px'}} icon="ic:baseline-plus" />
-     </Button>
-     <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-        <Alert variant="filled"  onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-          The Information Has Been Updated
+       <Button type="submit" variant="contained" color="primary">
+        Update <Icon style={{ marginLeft: '6px' }} icon="ic:baseline-plus" />
+      </Button>
+
+      <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
+        <Alert variant="filled" onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
+        Updated Successfully!
         </Alert>
       </Snackbar>
      

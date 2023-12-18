@@ -55,16 +55,19 @@ export default function AddPysics() {
     resolver: useYupValidationResolver(validationSchema),
   });
   const navigate = useNavigate()
-  const [open, setOpen] = useState(false);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
   const [teachers, setTeachers] = useState([]);
   const [students, setStudents] = useState([]);
   
   const onSubmit = async (data) => {
+    setOpenSnackbar(true);
     console.log('Data being sent:', data);
     try {
       const response = await axios.post('https://walaadashboard.pythonanywhere.com/api/spor/', data);
       console.log('Response:', response);
-      navigate('/sport')
+      setTimeout(() => {
+        navigate('/sport');
+      }, 2000);
     } catch (error) {
       console.error('Error submitting data:', error);
     }
@@ -98,15 +101,8 @@ export default function AddPysics() {
     fetchTeachers();
   }, []);
 
-  const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-
-    setOpen(false);
-  };
-  const handleClick = () => {
-    setOpen(true);
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false);
   };
 
   return (
@@ -206,12 +202,13 @@ export default function AddPysics() {
 
 
      
-      <Button onClick={handleClick} type="submit" variant="contained" color="primary">
-       Add   <Icon style={{marginLeft:'6px'}} icon="ic:baseline-plus" />
-     </Button>
-     <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-        <Alert variant="filled"  onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-          Created Successfully !
+<Button type="submit" variant="contained" color="primary">
+        Add <Icon style={{ marginLeft: '6px' }} icon="ic:baseline-plus" />
+      </Button>
+
+      <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
+        <Alert variant="filled" onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
+          Created Successfully!
         </Alert>
       </Snackbar>
     </form>

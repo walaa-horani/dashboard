@@ -10,7 +10,7 @@ import { Icon } from '@iconify/react';
 const Editteacher = () => {
     const {id} = useParams()
     const [data,setData] = useState([])
-    const [open, setOpen] = useState(false);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
 
     const navigate = useNavigate()
     useEffect(()=>{
@@ -18,8 +18,10 @@ const Editteacher = () => {
     }, [id]);
     function handleSubmit(e){
         e.preventDefault()
+      
+
         axios.put(`https://walaadashboard.pythonanywhere.com/api/teachers/${id}/`,data).then(res => {
-           
+          setOpenSnackbar(true);
         setTimeout(() => {
           navigate('/teachers');
         }, 1000);
@@ -27,18 +29,10 @@ const Editteacher = () => {
         })
 
     }
-    const handleClick = () => {
-      setOpen(true);
+    const handleCloseSnackbar = () => {
+      setOpenSnackbar(false);
     };
-  
-    const handleClose = (event, reason) => {
-      if (reason === 'clickaway') {
-        return;
-      }
-  
-      setOpen(false);
-    };
-  return (
+    return(
     <div><form onSubmit={handleSubmit} className='container' >
     <h1 className=' display-5 text-center m-5'>Edit  Teacher</h1>
      <div className='d-flex'>
@@ -175,12 +169,13 @@ const Editteacher = () => {
  }}
 />
 
-     <Button onClick={handleClick} type="submit" variant="contained" color="primary">
-       Update  <Icon style={{marginLeft:'6px'}} icon="ic:baseline-plus" />
-     </Button>
-     <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-        <Alert variant="filled"  onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-          The Information Has Been Updated
+<Button type="submit" variant="contained" color="primary">
+        Update <Icon style={{ marginLeft: '6px' }} icon="ic:baseline-plus" />
+      </Button>
+
+      <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
+        <Alert variant="filled" onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
+        Updated Successfully!
         </Alert>
       </Snackbar>
      
