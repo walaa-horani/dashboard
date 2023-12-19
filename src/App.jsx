@@ -26,6 +26,7 @@ import AddPhysics from './pages/physics/AddPhysics';
 import AddMath from './pages/math/AddMath';
 import AddSport from './pages/sport/AddSport';
 import AddOutDoors from './pages/outDoors/AddOutDoors';
+import StudenDetails from './pages/students/StudenDetails';
 
 
 import Teachers from './pages/teachers/Teachers';
@@ -49,6 +50,8 @@ function App() {
     <>
     <Routes>
     <Route path='/' index element={<Dashboard />} />
+    <Route path='/studentDetails/:id' index element={<StudenDetails />} />
+
     <Route path="/teachers" element={<Teachers />} />
     <Route path="/chemistry" element={<Chemistry />} />
     <Route path="/physics" element={<Physics />} />
