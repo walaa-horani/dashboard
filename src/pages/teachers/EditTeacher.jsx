@@ -9,9 +9,112 @@ import Alert from '@mui/material/Alert';
 import { Icon } from '@iconify/react';
 const Editteacher = () => {
     const {id} = useParams()
-    const [data,setData] = useState([])
+   
     const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [data, setData] = useState({
+      firstName: '', // Set default teacher value
+      lastName: '', // Set default student value
+      fatherName: '',
+      motherName: '',
+      phone: '',
+      age: '',
+      nationality: '',
+      address: '',
+      in_class:'',
+      birthdate:"",
+      email:"",
+    });
+    
+    const [errors, setErrors] = useState({
+      firstName: '',
+      lastName: '',
+      fatherName: '',
+      motherName: '',
+      phone: '',
+      age: '',
+      nationality: '',
+      address: '',
+      in_class:"",
+      birthdate:"",
+      email:"",
+    });
 
+    const validateForm = () => {
+      let formIsValid = true;
+      const newErrors = 
+      {firstName: '',
+      lastName: '',
+      fatherName: '',
+      motherName: '',
+      phone: '',
+      age: '',
+      in_class:"",
+      nationality: '',
+      birthdate:"",
+      email:"",
+      address: '', };
+    
+      // Validate teacher
+      if (!data.firstName) {
+        formIsValid = false;
+        newErrors.firstName = 'first Name is required';
+      }
+    
+      // Validate student
+      if (!data.lastName) {
+        formIsValid = false;
+        newErrors.lastName = 'last Name is required';
+      }
+    
+      // Validate time
+      if (!data.fatherName) {
+        formIsValid = false;
+        newErrors.fatherName = 'father Name is required';
+      }
+    
+      if (!data.motherName) {
+        formIsValid = false;
+        newErrors.motherName = 'motherName Name is required';
+      }
+
+      // Validate date
+      if (!data.phone) {
+        formIsValid = false;
+        newErrors.phone = 'phone is required';
+      }
+      if (!data.email) {
+        formIsValid = false;
+        newErrors.phone = 'email is required';
+      }
+
+      if (!data.birthdate) {
+        formIsValid = false;
+        newErrors.phone = 'Birth Date is required';
+      }
+    
+      if (!data.age) {
+        formIsValid = false;
+        newErrors.age = 'Age is required';
+      }
+
+      if (!data.in_class) {
+        formIsValid = false;
+        newErrors.in_class = 'Class is required';
+      }
+      // Validate place
+      if (!data.nationality) {
+        formIsValid = false;
+        newErrors.nationality = 'nationality is required';
+      }
+    
+      if (!data.address) {
+        formIsValid = false;
+        newErrors.address = 'address is required';
+      }
+
+      setErrors(newErrors);
+      return formIsValid;
+    };
     const navigate = useNavigate()
     useEffect(()=>{
         axios.get(`https://walaadashboard.pythonanywhere.com/api/teachers/${id}/`).then(res => setData(res.data)).catch(err => console.log(err))
@@ -45,7 +148,7 @@ const Editteacher = () => {
          onChange={e => setData({...data, firstName:e.target.value}) }
          value={data.firstName} 
          InputLabelProps={{
-          shrink: Boolean(data.address),  // Shrink label only if there is a value
+          shrink: Boolean(data.firstName),  // Shrink label only if there is a value
         }}
 
        />
@@ -59,7 +162,7 @@ const Editteacher = () => {
          onChange={e=> setData({...data,lastName:e.target.value})}  
          value={data.lastName} 
          InputLabelProps={{
-          shrink: Boolean(data.address),  // Shrink label only if there is a value
+          shrink: Boolean(data.lastName),  // Shrink label only if there is a value
         }}
 
        />
@@ -75,7 +178,7 @@ const Editteacher = () => {
            name='fatherName'
            value={data.fatherName}
            InputLabelProps={{
-            shrink: Boolean(data.address),  // Shrink label only if there is a value
+            shrink: Boolean(data.fatherName),  // Shrink label only if there is a value
           }}
        />
 
@@ -88,7 +191,7 @@ const Editteacher = () => {
          style={{marginRight:'10px'}}
          value={data.motherName}
          InputLabelProps={{
-          shrink: Boolean(data.address),  // Shrink label only if there is a value
+          shrink: Boolean(data.motherName),  // Shrink label only if there is a value
         }}
        />
        
@@ -103,7 +206,7 @@ const Editteacher = () => {
        style={{marginRight:'10px'}}
        value={data.phone}
        InputLabelProps={{
-        shrink: Boolean(data.address),  // Shrink label only if there is a value
+        shrink: Boolean(data.phone),  // Shrink label only if there is a value
       }}
      />
 
@@ -116,7 +219,7 @@ const Editteacher = () => {
        style={{marginRight:'10px'}}
        value={data.age}
        InputLabelProps={{
-        shrink: Boolean(data.address),  // Shrink label only if there is a value
+        shrink: Boolean(data.age),  // Shrink label only if there is a value
       }}
      />
      
@@ -131,7 +234,7 @@ const Editteacher = () => {
          style={{marginRight:'10px'}}
          value={data.nationality}
          InputLabelProps={{
-          shrink: Boolean(data.address),  // Shrink label only if there is a value
+          shrink: Boolean(data.nationality),  // Shrink label only if there is a value
         }}
 
        />
@@ -144,11 +247,38 @@ const Editteacher = () => {
          style={{marginRight:'10px'}}
          value={data.in_class}
          InputLabelProps={{
-          shrink: Boolean(data.address),  // Shrink label only if there is a value
+          shrink: Boolean(data.in_class),  // Shrink label only if there is a value
         }}
 
        />
        </div>
+
+       <div className='d-flex'>
+<TextField
+  label="Birth Date"
+  error={Boolean(errors.birthdate)}
+  helperText={errors.birthdate?.message}
+  fullWidth
+  type='date'
+  margin="normal"
+  value={data.birthdate ? new Date(data.birthdate).toISOString().split('T')[0] : ''} // format the date
+  style={{ marginRight: '10px' }}
+  name='birthdate'
+  InputLabelProps={{ shrink: true }} 
+/>
+
+      <TextField
+          label="Email"
+          error={Boolean(errors.email)}
+          helperText={errors.email?.message}
+          fullWidth
+          value={data.email}
+
+          margin="normal"
+          style={{marginRight:'10px'}}
+          name='email'
+        />
+</div>
 <TextField
  label="Address"
  name='address'

@@ -22,6 +22,8 @@ const EditStudent = () => {
       nationality: '',
       address: '',
       in_class:'',
+      birthdate:"",
+      email:"",
     });
     
     const [errors, setErrors] = useState({
@@ -34,6 +36,8 @@ const EditStudent = () => {
       nationality: '',
       address: '',
       in_class:"",
+      birthdate:"",
+      email:"",
     });
 
     const validateForm = () => {
@@ -47,6 +51,8 @@ const EditStudent = () => {
       age: '',
       in_class:"",
       nationality: '',
+      birthdate:"",
+      email:"",
       address: '', };
     
       // Validate teacher
@@ -76,6 +82,15 @@ const EditStudent = () => {
       if (!data.phone) {
         formIsValid = false;
         newErrors.phone = 'phone is required';
+      }
+      if (!data.email) {
+        formIsValid = false;
+        newErrors.phone = 'email is required';
+      }
+
+      if (!data.birthdate) {
+        formIsValid = false;
+        newErrors.phone = 'Birth Date is required';
       }
     
       if (!data.age) {
@@ -181,6 +196,34 @@ const EditStudent = () => {
           }}
        />
 </div>
+
+<div className='d-flex'>
+<TextField
+  label="Birth Date"
+  error={Boolean(errors.birthdate)}
+  helperText={errors.birthdate?.message}
+  fullWidth
+  type='date'
+  margin="normal"
+  value={data.birthdate ? new Date(data.birthdate).toISOString().split('T')[0] : ''} // format the date
+  style={{ marginRight: '10px' }}
+  name='birthdate'
+  InputLabelProps={{ shrink: true }} 
+/>
+
+      <TextField
+          label="Email"
+          error={Boolean(errors.email)}
+          helperText={errors.email?.message}
+          fullWidth
+          value={data.email}
+
+          margin="normal"
+          style={{marginRight:'10px'}}
+          name='email'
+        />
+</div>
+
 <div className='d-flex'>
 
        <TextField

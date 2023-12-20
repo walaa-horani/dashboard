@@ -17,7 +17,9 @@ const validationSchema = yup.object({
   in_class: yup.string().required('Class is required'),
   age: yup.string().required('age is required'),
   nationality: yup.string().required('nationality is required'),
-
+  email: yup.string().email().required('Email is required'),
+  birthdate: yup.string().required('Birth Date is required'),
+  
 });
 
 const useYupValidationResolver = (validationSchema) =>
@@ -176,6 +178,32 @@ export default function AddStudent() {
           margin="normal"
           style={{marginRight:'10px'}}
           name='nationality'
+        />
+</div>
+
+<div className='d-flex'>
+<TextField
+  label="Birth Date"
+  {...register('birthdate')}
+  error={Boolean(errors.birthdate)}
+  helperText={errors.birthdate?.message}
+  fullWidth
+  type='date'
+  margin="normal"
+  style={{ marginRight: '10px' }}
+  name='birthdate'
+  InputLabelProps={{ shrink: true }} 
+/>
+
+      <TextField
+          label="Email"
+          {...register('email')}
+          error={Boolean(errors.email)}
+          helperText={errors.email?.message}
+          fullWidth
+          margin="normal"
+          style={{marginRight:'10px'}}
+          name='email'
         />
 </div>
 
