@@ -123,6 +123,8 @@ function Teachers() {
             
            <td style={{width:'50px'}}> <Link to={`/Editteacher/${teacher.id}`}><Icon style={{fontSize:'24px'}} icon="openmoji:edit" /></Link></td>
            <td  style={{ fontSize:'24px',width:'50px'}} > <button onClick={() => handleClickOpen(teacher.id)} ><Icon   icon="flat-color-icons:delete-row" /></button></td>
+           <td style={{width:'50px', fontSize:'24px'}}> <Link to={`/teacherDetails/${teacher.id}`}><Icon icon="lets-icons:view-fill" /></Link></td>
+
            <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Delete Confirmation</DialogTitle>
         <DialogContent>

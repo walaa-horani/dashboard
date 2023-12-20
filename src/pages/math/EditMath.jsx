@@ -233,7 +233,7 @@ const EditMath = () => {
      
         
 
-       <Button type="submit" variant="contained" color="primary">
+       <Button  type="submit" variant="contained" color="primary">
         Update <Icon style={{ marginLeft: '6px' }} icon="ic:baseline-plus" />
       </Button>
 

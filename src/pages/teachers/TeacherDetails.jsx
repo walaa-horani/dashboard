@@ -4,7 +4,7 @@ import axios from 'axios';
 import {Container} from '@mui/material';
 import {TextField} from '@mui/material';
 
-const StudentDetails = () => {
+const TeacherDetails = () => {
     const { id } = useParams();
     const [data, setData] = useState({
         firstName: '',
@@ -20,7 +20,7 @@ const StudentDetails = () => {
     });
 
     useEffect(() => {
-        axios.get(`https://walaadashboard.pythonanywhere.com/api/studentDetails/${id}/`)
+        axios.get(`https://walaadashboard.pythonanywhere.com/api/teacherDetails/${id}/`)
             .then(res => setData(res.data))
             .catch(err => console.log(err));
     }, [id]);
@@ -153,4 +153,4 @@ const StudentDetails = () => {
     );
 };
 
-export default StudentDetails;
+export default TeacherDetails;

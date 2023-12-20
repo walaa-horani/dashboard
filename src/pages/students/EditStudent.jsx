@@ -1,11 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
 import { TextField, Button } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
-import { Select, MenuItem, FormControl, InputLabel, FormHelperText } from '@mui/material';
 
 import { Icon } from '@iconify/react';
 const EditStudent = () => {
@@ -13,7 +11,7 @@ const EditStudent = () => {
 
     const {id} = useParams()
     const [data, setData] = useState({
-      firstName: '', // Set default teacher value
+      firstName: '', // Set default student value
       lastName: '', // Set default student value
       fatherName: '',
       motherName: '',
@@ -24,6 +22,9 @@ const EditStudent = () => {
       in_class:'',
       birthdate:"",
       email:"",
+      country:"",
+      state:"",
+      faculity:"",
     });
     
     const [errors, setErrors] = useState({
@@ -38,6 +39,9 @@ const EditStudent = () => {
       in_class:"",
       birthdate:"",
       email:"",
+      country:"",
+      state:"",
+      faculity:"",
     });
 
     const validateForm = () => {
@@ -50,21 +54,37 @@ const EditStudent = () => {
       phone: '',
       age: '',
       in_class:"",
+      faculity:"",
       nationality: '',
       birthdate:"",
       email:"",
+      country:"",
+      state:"",
       address: '', };
     
-      // Validate teacher
+      // Validate student
       if (!data.firstName) {
         formIsValid = false;
         newErrors.firstName = 'first Name is required';
       }
-    
+      
+      if (!data.country) {
+        formIsValid = false;
+        newErrors.country = 'country is required';
+      }
+      if (!data.state) {
+        formIsValid = false;
+        newErrors.state = 'state is required';
+      }
       // Validate student
       if (!data.lastName) {
         formIsValid = false;
         newErrors.lastName = 'last Name is required';
+      }
+
+      if (!data.faculity) {
+        formIsValid = false;
+        newErrors.faculity = 'Faculity is required';
       }
     
       // Validate time
@@ -85,12 +105,12 @@ const EditStudent = () => {
       }
       if (!data.email) {
         formIsValid = false;
-        newErrors.phone = 'email is required';
+        newErrors.email = 'email is required';
       }
 
       if (!data.birthdate) {
         formIsValid = false;
-        newErrors.phone = 'Birth Date is required';
+        newErrors.birthdate = 'Birth Date is required';
       }
     
       if (!data.age) {
@@ -116,7 +136,21 @@ const EditStudent = () => {
       setErrors(newErrors);
       return formIsValid;
     };
-
+    const handleChange = (e) => {
+      const { name, value } = e.target;
+  
+      setData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+  
+      // Clear validation error when the user starts typing
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [name]: '',
+      }));
+    };
+  
     const navigate = useNavigate()
 
    
@@ -156,8 +190,20 @@ const EditStudent = () => {
       setOpenSnackbar(false);
     };
   
-  
-   
+    const handleDateChange = (newDate) => {
+      // Assuming you have a function to update the state, for example, setFormData
+      setFormData((prevData) => ({
+        ...prevData,
+        birthdate: newDate,
+      }));
+    };
+    const handleEmailChange = (newEmail) => {
+      // Assuming you have a function to update the state, for example, setFormData
+      setFormData((prevData) => ({
+        ...prevData,
+        email: newEmail,
+      }));
+    };
   return (
     <div><form onSubmit={handleSubmit} className='container' >
     <h1 className=' display-5 text-center m-5'>Edit a Student</h1>
@@ -197,32 +243,7 @@ const EditStudent = () => {
        />
 </div>
 
-<div className='d-flex'>
-<TextField
-  label="Birth Date"
-  error={Boolean(errors.birthdate)}
-  helperText={errors.birthdate?.message}
-  fullWidth
-  type='date'
-  margin="normal"
-  value={data.birthdate ? new Date(data.birthdate).toISOString().split('T')[0] : ''} // format the date
-  style={{ marginRight: '10px' }}
-  name='birthdate'
-  InputLabelProps={{ shrink: true }} 
-/>
 
-      <TextField
-          label="Email"
-          error={Boolean(errors.email)}
-          helperText={errors.email?.message}
-          fullWidth
-          value={data.email}
-
-          margin="normal"
-          style={{marginRight:'10px'}}
-          name='email'
-        />
-</div>
 
 <div className='d-flex'>
 
@@ -326,7 +347,101 @@ const EditStudent = () => {
        />
 
        </div>  
-       
+
+       <div className='d-flex'>
+
+       <TextField
+  label="Birth Date"
+  error={Boolean(errors.birthdate)}
+  helperText={errors.birthdate?.message}
+  fullWidth
+  type='date'
+  margin="normal"
+  value={data.birthdate ? new Date(data.birthdate).toISOString().split('T')[0] : ''} // format the date
+  style={{ marginRight: '10px' }}
+  name='birthdate'
+  InputLabelProps={{ shrink: true }}
+  onChange={handleChange} 
+/>
+
+      <TextField
+          label="Email"
+          error={Boolean(errors.email)}
+          helperText={errors.email?.message}
+          fullWidth
+          value={data.email}
+
+          margin="normal"
+          style={{marginRight:'10px'}}
+          name='email'
+          onChange={handleChange}
+        />
+
+       </div> 
+
+
+       <div className='d-flex'>
+
+<TextField
+label="Country"
+error={Boolean(errors.country)}
+helperText={errors.country?.message}
+fullWidth
+type='text'
+margin="normal"
+onChange={e=> setData({...data,country:e.target.value})}   
+
+value={data.country} // format the date
+style={{ marginRight: '10px' }}
+name='country'
+InputLabelProps={{ shrink: true }}
+
+/>
+
+<TextField
+   label="State"
+   error={Boolean(errors.state)}
+   helperText={errors.state?.message}
+   fullWidth
+   value={data.state}
+   onChange={e=> setData({...data,state:e.target.value})}   
+
+   margin="normal"
+   style={{marginRight:'10px'}}
+   name='state'
+   
+ />
+
+<TextField
+   label="Faculity"
+   error={Boolean(errors.faculity)}
+   helperText={errors.faculity?.message}
+   fullWidth
+   value={data.faculity}
+   onChange={e=> setData({...data,faculity:e.target.value})}   
+
+   margin="normal"
+   style={{marginRight:'10px'}}
+   name='faculity'
+   
+ />
+
+</div> 
+<div className='d-flex'>
+<TextField
+  label="Birth Date"
+  error={Boolean(errors.birthdate)}
+  helperText={errors.birthdate?.message}
+  fullWidth
+  type='date'
+  margin="normal"
+  value={data.birthdate ? new Date(data.birthdate).toISOString().split('T')[0] : ''}
+  style={{ marginRight: '10px' }}
+  name='birthdate'
+  InputLabelProps={{ shrink: true }} 
+  onChange={handleChange}
+
+/>
        <TextField
          label="Address"
          onChange={e=> setData({...data,address:e.target.value})}   
@@ -341,7 +456,7 @@ const EditStudent = () => {
           shrink: Boolean(data.address),  // Shrink label only if there is a value
         }}
        />
-        
+       </div> 
 
         <Button type="submit" variant="contained" color="primary">
         Update <Icon style={{ marginLeft: '6px' }} icon="ic:baseline-plus" />

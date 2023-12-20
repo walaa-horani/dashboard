@@ -19,7 +19,10 @@ const validationSchema = yup.object({
   nationality: yup.string().required('nationality is required'),
   email: yup.string().email().required('Email is required'),
   birthdate: yup.string().required('Birth Date is required'),
-  
+  faculity: yup.string().required('Faculity is required'),
+  country: yup.string().required('Country Date is required'),
+  state: yup.string().required('State is required'),
+
 });
 
 const useYupValidationResolver = (validationSchema) =>
@@ -157,6 +160,8 @@ export default function AddStudent() {
         />
 </div>
 
+
+
 <div className='d-flex'>
       <TextField
         label="Age"
@@ -204,6 +209,52 @@ export default function AddStudent() {
           margin="normal"
           style={{marginRight:'10px'}}
           name='email'
+        />
+</div>
+
+<div className='d-flex'>
+      <TextField
+        label="zip code"
+        {...register('zip code')}
+       
+        fullWidth
+        type='number'
+        margin="normal"
+        style={{marginRight:'10px'}}
+        name='zipCode'
+      />
+      <TextField
+          label="Faculity"
+          {...register('faculity')}
+          error={Boolean(errors.faculity)}
+          helperText={errors.faculity?.message}
+          fullWidth
+          margin="normal"
+          style={{marginRight:'10px'}}
+          name='faculity'
+        />
+</div>
+
+<div className='d-flex'>
+      <TextField
+        label="Country"
+        {...register('country')}
+       
+        fullWidth
+        type='text'
+        margin="normal"
+        style={{marginRight:'10px'}}
+        name='country'
+      />
+      <TextField
+          label="State"
+          {...register('state')}
+          error={Boolean(errors.state)}
+          helperText={errors.state?.message}
+          fullWidth
+          margin="normal"
+          style={{marginRight:'10px'}}
+          name='state'
         />
 </div>
 

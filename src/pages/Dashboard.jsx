@@ -122,7 +122,9 @@ function Dashboard() {
             
            <td style={{width:'50px'}}> <Link to={`/EditStudent/${student.id}`}><Icon style={{fontSize:'24px'}} icon="openmoji:edit" /></Link></td>
            <td  style={{ fontSize:'24px',width:'50px'}} > <button onClick={() => handleClickOpen(student.id)} ><Icon   icon="flat-color-icons:delete-row" /></button></td>
-           <Dialog open={open} onClose={handleClose}>
+           <td style={{width:'50px', fontSize:'24px'}}> <Link to={`/studentDetails/${student.id}`}><Icon icon="lets-icons:view-fill" /></Link></td>
+
+            <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Delete Confirmation</DialogTitle>
         <DialogContent>
           <DialogContentText>
