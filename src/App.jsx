@@ -42,6 +42,11 @@ import ChemistryGrade from './pages/grades/ChemistryGrade';
 import PhysicsGrade from './pages/grades/PhysicsGrade';
 import MathGrade from './pages/grades/MathGrade';
 import HistoryGrade from './pages/grades/HistoryGrade';
+
+import ChemistryGradeDetails from './pages/grades/ChemistryGradeDetails';
+import PhysicsGradeDetails from './pages/grades/PhysicsGradeDetails';
+import MathGradeDetails  from './pages/grades/MathGradeDetails ';
+import HistoryGradeDetails from './pages/grades/HistoryGradeDetails';
 function App() {
 
   const location = useLocation();
@@ -95,11 +100,11 @@ function App() {
           <Route path="/MathGrade" element={<MathGrade />} />
 
 
-          <Route path="/HistoryGrade/:id" element={<HistoryGradeDetails />} />
-          <Route path="/PhysicsGrade/:id" element={<PhysicsGradeDetails />} />
-          <Route path="/ChemistryGrade/:id" element={<ChemistryGradeDetails />} />
+          <Route path="/HistoryGradeDetails/:id" element={<HistoryGradeDetails />} />
+          <Route path="/PhysicsGradeDetails/:id" element={<PhysicsGradeDetails />} />
+          <Route path="/ChemistryGradeDetails/:id" element={<ChemistryGradeDetails />} />
           
-          <Route path="/MathGrade/:id" element={<MathGrade />} />
+          <Route path="/MathGradeDetails/:id" element={<MathGradeDetails />} />
 
           
          
