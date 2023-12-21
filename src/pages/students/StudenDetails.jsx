@@ -6,6 +6,9 @@ import {TextField} from '@mui/material';
 
 const StudentDetails = () => {
     const { id } = useParams();
+    const [chemistry, setChemistry] = useState([])
+    const [physics, setPhysics] = useState([])
+
     const [data, setData] = useState({
         firstName: '',
         lastName: '',
@@ -22,6 +25,18 @@ const StudentDetails = () => {
     useEffect(() => {
         axios.get(`https://walaadashboard.pythonanywhere.com/api/studentDetails/${id}/`)
             .then(res => setData(res.data))
+            .catch(err => console.log(err));
+    }, [id]);
+
+    useEffect(() => {
+        axios.get(`https://walaadashboard.pythonanywhere.com/api/chemistry/${id}/`)
+            .then(res => setChemistry(res.data))
+            .catch(err => console.log(err));
+    }, [id]);
+
+    useEffect(() => {
+        axios.get(`https://walaadashboard.pythonanywhere.com/api/physics/${id}/`)
+            .then(res => setPhysics(res.data))
             .catch(err => console.log(err));
     }, [id]);
 
@@ -129,6 +144,55 @@ const StudentDetails = () => {
            <TextField multiline rows='3' style={{marginTop:'25px', width:'100%'}}  id="filled-basic" readonly label="Address" variant="filled" value={data.address}/>
               </div>
               </div>
+              <div className='table-head'>
+              </div>
+             
+              <table className="table table-striped mt-5">
+                
+                <thead className="text-center" >
+                <th></th>
+                    <th>Grade</th>
+                    <th>Min Grade</th>
+                    <th>Place</th>
+                    <th>Time</th>
+                </thead>
+  <tbody>
+    
+    {data?.chemistry_grades?.map((grade, index) => (
+      <tr className="text-center " key={index}>
+        <td>Chemistry</td>
+        <td>{grade.grade}</td>
+        <td>{grade.min_grade}</td>
+        <td>{chemistry?.place}</td>
+        <td>{chemistry?.time}</td>
+      </tr>
+      
+    ))}
+
+{data?.physics_grades?.map((grade, index) => (
+      <tr className="text-center" key={index}>
+        <td>Physics</td>
+        <td>{grade.grade}</td>
+        <td>{grade.min_grade}</td>
+        <td>{physics?.place}</td>
+        <td>{physics?.time}</td>
+      </tr>
+      
+    ))}
+
+
+     
+
+      
+   
+   
+    
+
+
+   
+  </tbody>
+</table>
+
             {/* <h2>{data.firstName} {data.lastName}</h2>
             <h3>Chemistry Grades</h3>
             <ul>

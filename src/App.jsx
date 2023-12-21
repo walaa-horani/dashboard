@@ -37,6 +37,11 @@ import Math from './pages/math/Math';
 import Sport from './pages/sport/Sport';
 import OutDoors from './pages/outDoors/OutDoors';
 
+
+import ChemistryGrade from './pages/grades/ChemistryGrade';
+import PhysicsGrade from './pages/grades/PhysicsGrade';
+import MathGrade from './pages/grades/MathGrade';
+import HistoryGrade from './pages/grades/HistoryGrade';
 function App() {
 
   const location = useLocation();
@@ -80,6 +85,21 @@ function App() {
           <Route path="/EditMath/:id" element={<EditMath />} />
           <Route path="/EditSport/:id" element={<EditSport />} />
           <Route path="/EditOutDoors/:id" element={<EditOutDoors />} />
+
+
+
+          <Route path="/HistoryGrade" element={<HistoryGrade />} />
+          <Route path="/PhysicsGrade" element={<PhysicsGrade />} />
+          <Route path="/ChemistryGrade" element={<ChemistryGrade />} />
+          
+          <Route path="/MathGrade" element={<MathGrade />} />
+
+
+          <Route path="/HistoryGrade/:id" element={<HistoryGradeDetails />} />
+          <Route path="/PhysicsGrade/:id" element={<PhysicsGradeDetails />} />
+          <Route path="/ChemistryGrade/:id" element={<ChemistryGradeDetails />} />
+          
+          <Route path="/MathGrade/:id" element={<MathGrade />} />
 
           
          
