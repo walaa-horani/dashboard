@@ -1,11 +1,11 @@
 import React from 'react';
 
-import Sidebar from '../../partials/Sidebar';
-import Header from '../../partials/Header';
-import WelcomeBanner from '../../partials/dashboard/WelcomeBanner';
+import Sidebar from '../../../partials/Sidebar';
+import Header from '../../../partials/Header';
+import WelcomeBanner from '../../../partials/dashboard/WelcomeBanner';
 import { Icon } from '@iconify/react';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
-import Banner from '../../partials/Banner';
+import Banner from '../../../partials/Banner';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
