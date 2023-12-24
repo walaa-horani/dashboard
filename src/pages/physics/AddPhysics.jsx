@@ -67,7 +67,7 @@ export default function AddPysics() {
       console.log('Response:', response);
       setTimeout(() => {
         navigate('/physics');
-      }, 2000);
+      }, 1000);
     } catch (error) {
       console.error('Error submitting data:', error);
     }

@@ -9,12 +9,14 @@ import Banner from '../../../partials/Banner';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import { useThemeProvider } from '../../../utils/ThemeContext';
 
-function ChemistryGrade() {
+function Physics() {
 
+  const { currentTheme } = useThemeProvider();
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [students, setStudents] = useState([]);
+  const [physics, setPhysicss] = useState([]);
   const [open, setOpen] = useState(false);
   const [idToDelete, setIdToDelete] = useState(null);
   const navigate = useNavigate()
@@ -31,21 +33,21 @@ function ChemistryGrade() {
 
   useEffect(() => {
     // Fetch data from Django API endpoint
-    fetch('https://walaadashboard.pythonanywhere.com/api/ChemistryGrade/')
+    fetch('https://walaadashboard.pythonanywhere.com/api/physicsGrade/')
       .then((response) => response.json())
-      .then((data) => setStudents(data))
+      .then((data) => setPhysicss(data))
       .catch((error) => console.error('Error fetching data:', error));
   }, []);
   const handleDelete = () => {
     if (idToDelete) {
-      axios.delete(`https://walaadashboard.pythonanywhere.com/api/chemistryGrade/${idToDelete}`)
+      axios.delete(`https://walaadashboard.pythonanywhere.com/api/physicsGrade/${idToDelete}`)
         .then(res => {
           // If the deletion is successful, update the state to trigger a re-render
-          setStudents(prevStudents => prevStudents.filter(student => student.id !== idToDelete));
+          setPhysicss(prevPhysicss => prevPhysicss.filter(physics => physics.id !== idToDelete));
           // Close the dialog
           handleClose();
           // Navigate to '/'
-          navigate('/');
+          navigate('/PhysicsGrade');
         })
         .catch(err => {
           console.log(err);
@@ -78,12 +80,12 @@ function ChemistryGrade() {
                         <path d="M15 7H9V1c0-.6-.4-1-1-1S7 .4 7 1v6H1c-.6 0-1 .4-1 1s.4 1 1 1h6v6c0 .6.4 1 1 1s1-.4 1-1V9h6c.6 0 1-.4 1-1s-.4-1-1-1z" />
                     </svg>
                     <Link
-      to="/AddStudent"
+      to="/AddPhysicsGrade"
       className="hidden xs:block ml-2"
       style={{ transition: '#fff', textDecoration: 'none', color: '#fff' }}
       onMouseOver={(e) => (e.target.style.color =  '#fff')}
       onMouseOut={(e) => (e.target.style.color = '#fff')}  >
-      Add Grade
+      Add Physics Grade
     </Link>      
      </button>  
       </div>              
@@ -95,34 +97,27 @@ function ChemistryGrade() {
             <div className="container w-100">
 
             <table class="table table-striped">
-  <thead>
+            <thead>
     <tr className='text-center'>
-    <th style={{fontSize:'13px', color:'#6f42c1'}}>Name</th>
-    
-      <th style={{fontSize:'13px', color:'#6f42c1'}}>age</th>
-      <th style={{fontSize:'13px', color:'#6f42c1'}}>Father's Name</th>
-      <th style={{fontSize:'13px', color:'#6f42c1'}}>Mother's Name</th>
-      <th style={{fontSize:'13px', color:'#6f42c1'}}>Class</th>
-      <th style={{fontSize:'13px', color:'#6f42c1'}}>Phone</th>
-      <th style={{fontSize:'13px', color:'#6f42c1'}}>Nationality</th>
+    <th style={{fontSize:'13px', color:'#6f42c1'}}>Student</th>
+    <th style={{fontSize:'13px', color:'#6f42c1'}}>Teacher</th>
+
+      <th style={{fontSize:'13px', color:'#6f42c1'}}>grade</th>
+      <th style={{fontSize:'13px', color:'#6f42c1'}}>Min Grade</th>
 
     </tr>
   </thead>
   <tbody>
-        {students.map((student) => (
-          <tr className='text-center' key={student.id}>
-            <td >{student.firstName} {student.lastName}</td>
+        {physics.map((physics) => (
+  <tr className={` text-center ${currentTheme === 'dark' ? 'text-light' : ''}`} key={physics.id}>
+          
+            <td>{physics.student}</td>
+            <td>{physics.teacher}</td>
+            <td>{physics.grade}</td>
+            <td>{physics.min_grade}</td>
             
-            <td>{student.age}</td>
-            <td>{student.fatherName}</td>
-            <td>{student.motherName}</td>
-            <td>{student.in_class}</td>
-            <td>{student.phone}</td>
-            <td>{student.nationality}</td>
-            
-           <td style={{width:'50px'}}> <Link to={`/EditStudent/${student.id}`}><Icon style={{fontSize:'24px'}} icon="openmoji:edit" /></Link></td>
-           <td  style={{ fontSize:'24px',width:'50px'}} > <button onClick={() => handleClickOpen(student.id)} ><Icon   icon="flat-color-icons:delete-row" /></button></td>
-           <td style={{width:'50px', fontSize:'24px'}}> <Link to={`/studentDetails/${student.id}`}><Icon icon="lets-icons:view-fill" /></Link></td>
+           <td style={{width:'50px'}}> <Link to={`/EditPhysicsGradeDetails/${physics.id}`}><Icon style={{fontSize:'24px'}} icon="openmoji:edit" /></Link></td>
+           <td  style={{ fontSize:'24px',width:'50px'}} > <button onClick={() => handleClickOpen(physics.id)} ><Icon   icon="flat-color-icons:delete-row" /></button></td>
 
             <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Delete Confirmation</DialogTitle>
@@ -160,4 +155,4 @@ function ChemistryGrade() {
 }
 
 
-export default ChemistryGrade;
+export default Physics;

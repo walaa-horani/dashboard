@@ -8,3 +8,12 @@
 @import 'additional-styles/flatpickr.css';
 
 @import 'tailwindcss/utilities';
+.dark-mode-color {
+    /* Dark mode text color */
+    color: #FFFFFF !important;
+  }
+  
+  .light-mode-color {
+    /* Light mode text color */
+    color: #000000 !important;
+  }

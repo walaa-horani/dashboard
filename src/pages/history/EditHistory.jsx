@@ -9,6 +9,7 @@ import { Select, MenuItem, FormControl, InputLabel, FormHelperText } from '@mui/
 
 import { Icon } from '@iconify/react';
 const EditHistory = () => {
+  
     const {id} = useParams()
     const [data, setData] = useState({
       teacher: null, // Set default teacher value
@@ -66,6 +67,7 @@ const EditHistory = () => {
       setErrors(newErrors);
       return formIsValid;
     };
+    
 
     const navigate = useNavigate()
 
@@ -97,7 +99,7 @@ const EditHistory = () => {
       fetchTeachers();
     }, []);
     useEffect(() => {
-      axios.get(`https://walaadashboard.pythonanywhere.com/api/math/${id}/`)
+      axios.get(`https://walaadashboard.pythonanywhere.com/api/history/${id}/`)
         .then(res => setData(res.data))
         .catch(err => console.log(err))
     }, [id]);
@@ -112,11 +114,11 @@ const EditHistory = () => {
     
       if (formIsValid) {
         // If the form is valid, proceed with the axios request
-        axios.put(`https://walaadashboard.pythonanywhere.com/api/math/${id}/`, data)
+        axios.put(`https://walaadashboard.pythonanywhere.com/api/history/${id}/`, data)
           .then(res => {
             setOpenSnackbar(true);
             setTimeout(() => {
-              navigate('/math');
+              navigate('/history');
             }, 1000);
           })
           .catch(error => {
@@ -126,66 +128,65 @@ const EditHistory = () => {
       }
     }
     
-  
-  
     const handleCloseSnackbar = () => {
       setOpenSnackbar(false);
     };
   
+   
   return (
     <div><form onSubmit={handleSubmit} className='container' >
-    <h1 className=' display-5 text-center m-5'>Edit a Math Lesson</h1>
+    <h1 className=' display-5 text-center m-5'>Edit a History</h1>
      <div className='d-flex'>
      <FormControl fullWidth margin="normal">
-      <InputLabel htmlFor="teacher-select">Teacher</InputLabel>
-      <Select
-  style={{ marginRight: '10px' }}
-  label="Teacher"
-  name="teacher"
-  error
-  helperText={errors.teacher}
-  value={data.teacher} // Set the initial value to the current teacher
-  onChange={(e) => setData({ ...data, teacher: e.target.value })} // Handle changes to the selected teacher
-  inputProps={{
-    id: 'teacher-select',
-  }}
->
-  {teachers.map((teacher) => (
-    <MenuItem key={teacher.id} value={teacher.id}>
-      {teacher.firstName} {/* Adjust this based on your teacher object structure */}
-    </MenuItem>
-  ))}
-</Select>
-
-    </FormControl>
+  <InputLabel htmlFor="teacher-select">Teacher</InputLabel>
+  <Select
+    style={{ marginRight: '10px' }}
+    label="Teacher"
+    name="teacher"
+    error
+    value={data.teacher}
+    onChange={(e) => setData({ ...data, teacher: e.target.value })}
+    inputProps={{
+      id: 'teacher-select',
+    }}
+  >
+    {teachers.map((teacher) => (
+      <MenuItem key={teacher.id} value={teacher.id}>
+        {teacher.firstName}
+      </MenuItem>
+    ))}
+  </Select>
+  <FormHelperText>{errors.teacher}</FormHelperText>
+</FormControl>
 
 <FormControl fullWidth margin="normal">
-      <InputLabel htmlFor="student-select">Student</InputLabel>
-      <Select
-  label="Student"
-  name="student"
-  error
-  helperText={errors.student}
-  value={data.student} // Set the initial value to the current student
-  onChange={(e) => setData({ ...data, student: e.target.value })} // Handle changes to the selected student
-  inputProps={{
-    id: 'student-select',
-  }}
->
-  {students.map((student) => (
-    <MenuItem key={student.id} value={student.id}>
-      {student.firstName}
-    </MenuItem>
-  ))}
-</Select>
+  <InputLabel htmlFor="student-select">Student</InputLabel>
+  <Select
+    label="Student"
+    error
+    name="student"
+    inputProps={{
+      id: 'student-select',
+    }}
+    value={data.student}
+    onChange={(e) => setData({ ...data, student: e.target.value })}
+  >
+    {students.map((student) => (
+      <MenuItem key={student.id} value={student.id}>
+        {student.firstName}
+      </MenuItem>
+    ))}
+  </Select>
+  <FormHelperText>{errors.student}</FormHelperText>
+</FormControl>
 
-    </FormControl>
+
 </div>
 <div className='d-flex'>
        <TextField
          label="time"
          fullWidth
-         error={Boolean(errors.date)}
+         error={Boolean(errors.time)}
   helperText={errors.time}
          name='time'
          margin="normal"
@@ -233,7 +234,7 @@ const EditHistory = () => {
      
         
 
-       <Button  type="submit" variant="contained" color="primary">
+       <Button type="submit" variant="contained" color="primary">
         Update <Icon style={{ marginLeft: '6px' }} icon="ic:baseline-plus" />
       </Button>
 
@@ -242,6 +243,7 @@ const EditHistory = () => {
         Updated Successfully!
         </Alert>
       </Snackbar>
+     
       
    </form></div>
   )

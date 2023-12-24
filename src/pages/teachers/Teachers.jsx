@@ -10,6 +10,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useThemeProvider } from '../../utils/ThemeContext';
 
 function Teachers() {
 
@@ -19,6 +20,8 @@ function Teachers() {
   const [open, setOpen] = useState(false);
   const [idToDelete, setIdToDelete] = useState(null);
   const navigate = useNavigate()
+  const [searchTxt, setsearchTxt] = useState('')
+  const { currentTheme } = useThemeProvider();
 
   const handleClickOpen = (id) => {
     setIdToDelete(id);
@@ -33,15 +36,15 @@ function Teachers() {
 
   useEffect(() => {
     // Fetch data from Django API endpoint
-    fetch('https://walaadashboard.pythonanywhere.com/api/teachers')
+    fetch(`https://walaadashboard.pythonanywhere.com/api/teachers?firstName=${searchTxt}`)
       .then((response) => response.json())
       .then((data) => setTeachers(data))
       .catch((error) => console.error('Error fetching data:', error));
-  }, []);
+  }, [searchTxt]);
   const handleDelete = () => {
     if (idToDelete) {
       axios.delete(`https://walaadashboard.pythonanywhere.com/api/teachers/${idToDelete}`)
-        .then(res => {
+      .then(res => {
           // If the deletion is successful, update the state to trigger a re-render
           setTeachers(prevteachers => prevteachers.filter(teacher => teacher.id !== idToDelete));
           // Close the dialog
@@ -57,8 +60,9 @@ function Teachers() {
     }
   };
   return (
+    
     <div className="flex h-screen overflow-hidden">
-
+       
       {/* Sidebar */}
       <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
@@ -75,6 +79,12 @@ function Teachers() {
             <WelcomeBanner />
 
             
+           
+           
+
+            {/* Cards */}
+            <div className="container w-100">
+              <div className='d-flex  justify-content-between'>
             <div style={{float:'right'}}>
                 <button style={{float:'right'}} className="btn mb-5 bg-indigo-500 hover:bg-indigo-600 text-white">
                     <svg className="w-4 h-4 fill-current opacity-50 shrink-0" viewBox="0 0 16 16">
@@ -90,11 +100,24 @@ function Teachers() {
     </Link>      
      </button>  
       </div>  
-           
+      <div>
 
-            {/* Cards */}
-            <div className="container w-100">
-
+      <form className="border-b border-slate-200 dark:border-slate-700">
+            <div className="relative">
+             
+              <input
+               value={searchTxt} onChange={e=> setsearchTxt(e.target.value)}
+                className="w-full dark:text-slate-300 bg-white dark:bg-slate-800 border-0 focus:ring-transparent placeholder-slate-400 dark:placeholder-slate-500 appearance-none py-3 pl-10 pr-4"
+                type="search"
+                placeholder="Search Anything…"
+              
+              />
+             
+            </div>
+          </form>
+      </div>
+          
+          </div>
             <table class="table table-striped">
   <thead>
     <tr className='text-center'>
@@ -111,8 +134,8 @@ function Teachers() {
   </thead>
   <tbody>
         {teachers.map((teacher) => (
-          <tr className='text-center' key={teacher.id}>
-            <td >{teacher.firstName} {teacher.lastName}</td>
+        <tr className={` text-center ${currentTheme === 'dark' ? 'text-light' : ''}`} key={teacher.id}>
+        <td >{teacher.firstName} {teacher.lastName}</td>
             
             <td>{teacher.age}</td>
             <td>{teacher.fatherName}</td>

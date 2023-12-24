@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useThemeProvider } from '../../utils/ThemeContext';
 
 import Sidebar from '../../partials/Sidebar';
 import Header from '../../partials/Header';
@@ -19,6 +20,7 @@ function Chemistry() {
   const [open, setOpen] = useState(false);
   const [idToDelete, setIdToDelete] = useState(null);
   const navigate = useNavigate()
+  const { currentTheme } = useThemeProvider();
 
   const handleClickOpen = (id) => {
     setIdToDelete(id);
@@ -96,7 +98,7 @@ function Chemistry() {
 
             <table class="table table-striped">
   <thead>
-    <tr className='text-center'>
+  <tr className={` text-center ${currentTheme === 'dark' ? 'text-light' : ''}`} key={chemistry.id}>
     <th style={{fontSize:'13px', color:'#6f42c1'}}>Student</th>
     
       <th style={{fontSize:'13px', color:'#6f42c1'}}>Teacher</th>
@@ -108,8 +110,8 @@ function Chemistry() {
   </thead>
   <tbody>
         {chemistry.map((chemistry) => (
-          <tr className='text-center' key={chemistry.id}>
-            <td >{chemistry.student} </td>
+  <tr className={` text-center ${currentTheme === 'dark' ? 'text-light' : ''}`} key={chemistry.id}>
+  <td >{chemistry.student} </td>
             
             <td>{chemistry.teacher}</td>
            

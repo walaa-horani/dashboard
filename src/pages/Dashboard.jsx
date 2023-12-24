@@ -9,6 +9,7 @@ import Banner from '../partials/Banner';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import { useThemeProvider } from '../utils/ThemeContext';
 
 function Dashboard() {
 
@@ -16,7 +17,10 @@ function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [students, setStudents] = useState([]);
   const [open, setOpen] = useState(false);
+  const { currentTheme } = useThemeProvider();
+
   const [idToDelete, setIdToDelete] = useState(null);
+  const [searchTxt, setsearchTxt] = useState('')
   const navigate = useNavigate()
   const handleClickOpen = (id) => {
     setIdToDelete(id);
@@ -31,11 +35,12 @@ function Dashboard() {
 
   useEffect(() => {
     // Fetch data from Django API endpoint
-    fetch('https://walaadashboard.pythonanywhere.com/api/students/')
+    fetch(`https://walaadashboard.pythonanywhere.com/api/students?firstName=${searchTxt}`)
       .then((response) => response.json())
       .then((data) => setStudents(data))
       .catch((error) => console.error('Error fetching data:', error));
-  }, []);
+  }, [searchTxt]);
+  
   const handleDelete = () => {
     if (idToDelete) {
       axios.delete(`https://walaadashboard.pythonanywhere.com/api/students/${idToDelete}`)
@@ -72,13 +77,22 @@ function Dashboard() {
             <WelcomeBanner />
 
            
-                <div style={{float:'right'}}>
+                        
+              
+
+         
+
+            {/* Cards */}
+           
+            <div className="container w-100">
+            <div className='d-flex  justify-content-between'>
+            <div style={{float:'right'}}>
                 <button style={{float:'right'}} className="btn mb-5 bg-indigo-500 hover:bg-indigo-600 text-white">
                     <svg className="w-4 h-4 fill-current opacity-50 shrink-0" viewBox="0 0 16 16">
                         <path d="M15 7H9V1c0-.6-.4-1-1-1S7 .4 7 1v6H1c-.6 0-1 .4-1 1s.4 1 1 1h6v6c0 .6.4 1 1 1s1-.4 1-1V9h6c.6 0 1-.4 1-1s-.4-1-1-1z" />
                     </svg>
                     <Link
-      to="/AddStudent"
+      to="/AddTeacher"
       className="hidden xs:block ml-2"
       style={{ transition: '#fff', textDecoration: 'none', color: '#fff' }}
       onMouseOver={(e) => (e.target.style.color =  '#fff')}
@@ -86,22 +100,31 @@ function Dashboard() {
       Add Student
     </Link>      
      </button>  
-      </div>              
+      </div>  
+      <div>
+
+      <form className="border-b border-slate-200 dark:border-slate-700">
+            <div className="relative">
+             
+              <input
+               value={searchTxt} onChange={e=> setsearchTxt(e.target.value)}
+                className="w-full dark:text-slate-300 bg-white dark:bg-slate-800 border-0 focus:ring-transparent placeholder-slate-400 dark:placeholder-slate-500 appearance-none py-3 pl-10 pr-4"
+                type="search"
+                placeholder="Search Anything…"
               
-
-         
-
-            {/* Cards */}
-            <div className="container w-100">
-
+              />
+             
+            </div>
+          </form>
+      </div>
+          
+          </div>
             <table class="table table-striped">
   <thead>
     <tr className='text-center'>
     <th style={{fontSize:'13px', color:'#6f42c1'}}>Name</th>
     
       <th style={{fontSize:'13px', color:'#6f42c1'}}>age</th>
-      <th style={{fontSize:'13px', color:'#6f42c1'}}>Father's Name</th>
-      <th style={{fontSize:'13px', color:'#6f42c1'}}>Mother's Name</th>
       <th style={{fontSize:'13px', color:'#6f42c1'}}>Class</th>
       <th style={{fontSize:'13px', color:'#6f42c1'}}>Phone</th>
       <th style={{fontSize:'13px', color:'#6f42c1'}}>Nationality</th>
@@ -110,12 +133,10 @@ function Dashboard() {
   </thead>
   <tbody>
         {students.map((student) => (
-          <tr className='text-center' key={student.id}>
-            <td >{student.firstName} {student.lastName}</td>
+        <tr className={` text-center ${currentTheme === 'dark' ? 'text-light' : ''}`} key={student.id}>
+        <td >{student.firstName} {student.lastName}</td>
             
             <td>{student.age}</td>
-            <td>{student.fatherName}</td>
-            <td>{student.motherName}</td>
             <td>{student.in_class}</td>
             <td>{student.phone}</td>
             <td>{student.nationality}</td>

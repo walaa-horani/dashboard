@@ -67,7 +67,7 @@ export default function AddHistoryGrade() {
       console.log('Response:', response);
       setTimeout(() => {
         navigate('/historyGrade');
-      }, 2000);
+      }, 1000);
     } catch (error) {
       console.error('Error submitting data:', error);
     }

@@ -24,14 +24,13 @@ const EditHistoryGrade = () => {
     const [errors, setErrors] = useState({
       teacher: '',
       student: '',
-      time: '',
-      date: '',
-      place: '',
+      grade:'',
+      min_grade:""
     });
 
     const validateForm = () => {
       let formIsValid = true;
-      const newErrors = { teacher: '', student: '', time: '', date: '', place: '' };
+      const newErrors = { teacher: '', student: '', grade: '', min_grade: '' };
     
       // Validate teacher
       if (!data.teacher) {
@@ -44,24 +43,19 @@ const EditHistoryGrade = () => {
         formIsValid = false;
         newErrors.student = 'Student is required';
       }
-    
-      // Validate time
-      if (!data.time) {
+
+      if (!data.grade) {
         formIsValid = false;
-        newErrors.time = 'Time is required';
+        newErrors.grade = 'grade is required';
+      }
+
+      if (!data.min_grade) {
+        formIsValid = false;
+        newErrors.min_grade = 'Min Grade is required';
       }
     
-      // Validate date
-      if (!data.date) {
-        formIsValid = false;
-        newErrors.date = 'Date is required';
-      }
+     
     
-      // Validate place
-      if (!data.place) {
-        formIsValid = false;
-        newErrors.place = 'Place is required';
-      }
     
       setErrors(newErrors);
       return formIsValid;
@@ -97,7 +91,7 @@ const EditHistoryGrade = () => {
       fetchTeachers();
     }, []);
     useEffect(() => {
-      axios.get(`https://walaadashboard.pythonanywhere.com/api/math/${id}/`)
+      axios.get(`https://walaadashboard.pythonanywhere.com/api/physicsGradeDetails/${id}/`)
         .then(res => setData(res.data))
         .catch(err => console.log(err))
     }, [id]);
@@ -112,11 +106,11 @@ const EditHistoryGrade = () => {
     
       if (formIsValid) {
         // If the form is valid, proceed with the axios request
-        axios.put(`https://walaadashboard.pythonanywhere.com/api/math/${id}/`, data)
+        axios.put(`https://walaadashboard.pythonanywhere.com/api/physicsGradeDetails/${id}/`, data)
           .then(res => {
             setOpenSnackbar(true);
             setTimeout(() => {
-              navigate('/math');
+              navigate('/physicsGrade');
             }, 1000);
           })
           .catch(error => {
@@ -134,7 +128,7 @@ const EditHistoryGrade = () => {
   
   return (
     <div><form onSubmit={handleSubmit} className='container' >
-    <h1 className=' display-5 text-center m-5'>Edit a Math Lesson</h1>
+    <h1 className=' display-5 text-center m-5'>Edit a Physics Grade</h1>
      <div className='d-flex'>
      <FormControl fullWidth margin="normal">
       <InputLabel htmlFor="teacher-select">Teacher</InputLabel>
@@ -183,53 +177,39 @@ const EditHistoryGrade = () => {
 </div>
 <div className='d-flex'>
        <TextField
-         label="time"
+         label="Grade"
          fullWidth
-         error={Boolean(errors.date)}
-  helperText={errors.time}
-         name='time'
+         error={Boolean(errors.grade)}
+  helperText={errors.grade}
+         name='grade'
          margin="normal"
          style={{marginRight:'10px'}}
-         onChange={e=> setData({...data,time:e.target.value})}  
-         value={data.time} 
+         onChange={e=> setData({...data,grade:e.target.value})}  
+         value={data.grade} 
          InputLabelProps={{
-          shrink: Boolean(data.time),  // Shrink label only if there is a value
+          shrink: Boolean(data.grade),  // Shrink label only if there is a value
         }}
 
        />
      
    
        <TextField
-         label="date"
+         label="Min Grade"
          fullWidth
-         error={Boolean(errors.date)}
-         helperText={errors.date}
+         error={Boolean(errors.min_grade)}
+         helperText={errors.min_grade}
          margin="normal"
 
          style={{marginRight:'10px'}}
-         onChange={e=> setData({...data,date:e.target.value})} 
-           name='date'
-           value={data.date}
+         onChange={e=> setData({...data,min_grade:e.target.value})} 
+           name='min_grade'
+           value={data.min_grade}
            InputLabelProps={{
-            shrink: Boolean(data.date),  // Shrink label only if there is a value
+            shrink: Boolean(data.min_grade),  // Shrink label only if there is a value
           }}
        />
 </div>
-       <TextField
-         label="place"
-         onChange={e=> setData({...data,place:e.target.value})}   
-        name='place'
-         fullWidth
-         error={Boolean(errors.place)}
-         helperText={errors.place}
-         margin="normal"
-         style={{marginRight:'10px'}}
-         value={data.place}
-         InputLabelProps={{
-          shrink: Boolean(data.place),  // Shrink label only if there is a value
-        }}
-       />
-       
+              
      
         
 

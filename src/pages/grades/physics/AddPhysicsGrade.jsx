@@ -49,7 +49,7 @@ const useYupValidationResolver = (validationSchema) =>
     [validationSchema]
   );
 
-export default function AddHistoryGrade() {
+export default function AddPhysicsGrade() {
   const { handleSubmit, register, formState: { errors } } = useForm({
     resolver: useYupValidationResolver(validationSchema),
   });
@@ -63,11 +63,11 @@ export default function AddHistoryGrade() {
     console.log('Data being sent:', data);
     try {
       setOpenSnackbar(true)
-      const response = await axios.post('https://walaadashboard.pythonanywhere.com/api/historyGrade/', data);
+      const response = await axios.post('https://walaadashboard.pythonanywhere.com/api/physicsGrade/', data);
       console.log('Response:', response);
       setTimeout(() => {
-        navigate('/historyGrade');
-      }, 2000);
+        navigate('/physicsGrade');
+      }, 1000);
     } catch (error) {
       console.error('Error submitting data:', error);
     }
@@ -78,13 +78,13 @@ export default function AddHistoryGrade() {
   };
   
   useEffect(() => {
-    // Fetch the list of history when the component mounts
+    // Fetch the list of physics when the component mounts
     const fetchStudent = async () => {
       try {
         const response = await axios.get('https://walaadashboard.pythonanywhere.com/api/students/');
         setStudent(response.data);
       } catch (error) {
-        console.error('Error fetching history:', error);
+        console.error('Error fetching physics:', error);
       }
     };
     fetchStudent();
@@ -109,7 +109,7 @@ export default function AddHistoryGrade() {
 
   return (
     <form className='container' onSubmit={handleSubmit(onSubmit)}>
-     <h1 className=' display-5 text-center m-5'>Add a History Grade</h1>
+     <h1 className=' display-5 text-center m-5'>Add a Physics Grade</h1>
       <div className='d-flex'>
     
 
@@ -127,7 +127,7 @@ export default function AddHistoryGrade() {
       >
         {students.map((student) => (
           <MenuItem key={student.id} value={student.id}>
-            {student.firstName} {/* Adjust this based on your student object structure */}
+            {student.firstName}   {student.lastName}
           </MenuItem>
         ))}
       </Select>

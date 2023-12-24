@@ -4,7 +4,7 @@ import './charts/ChartjsConfig';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 
-AddHistoryGrade
+
 import React, { useEffect } from 'react';
 import EditStudent  from './pages/students/EditStudent';
 import EditTeacher from './pages/teachers/EditTeacher';
@@ -14,6 +14,7 @@ import EditMath from './pages/math/EditMath';
 import EditSport from './pages/sport/EditSport';
 import EditOutDoors from './pages/outDoors/EditOutDoors';
 import EditHistory from './pages/history/EditHistory';
+import StudentSearch from './pages/students/StudentSearch';
 
 
 
@@ -34,7 +35,7 @@ import AddPhysics from './pages/physics/AddPhysics';
 import AddMath from './pages/math/AddMath';
 import AddSport from './pages/sport/AddSport';
 
-import AddHistoryGrade from '././pages/history/AddHistory';
+import AddHistoryGrade from './pages/grades/history/AddHistoryGrade';
 import AddChemistryGrade from './pages/grades/chemistry/AddChemistryGrade';
 import AddMathGrade from './pages/grades/maths/AddMathsGrade';
 import AddPhysicsGrade from './pages/grades/physics/AddPhysicsGrade';
@@ -79,6 +80,8 @@ function App() {
     <Routes>
     <Route path='/' index element={<Dashboard />} />
     <Route path='/studentDetails/:id' index element={<StudenDetails />} />
+    <Route path="/search/:searchstring" element={<StudentSearch />} />
+
     <Route path='/teacherDetails/:id' index element={<TeacherDetails />} />
 
     <Route path="/teachers" element={<Teachers />} />

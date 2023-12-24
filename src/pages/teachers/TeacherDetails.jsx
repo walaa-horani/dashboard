@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import {Container} from '@mui/material';
@@ -16,6 +16,8 @@ const TeacherDetails = () => {
         nationality: '',
         address: '',
         in_class: '',
+        zipCode: '',
+        faculity: '',
         chemistry_grades: [],  // Assuming chemistry_grades is an array of ChemistryGrade objects
     });
 
@@ -29,11 +31,21 @@ const TeacherDetails = () => {
         <Container style={{padding:'30px'}} >
         
 
-
             <div style={ {boxShadow:'4px 5px 25px rgba(0,0,0,0.2)', height:'auto', padding:'30px'}} className='userInfo  '>
                 
-           <h4 className='mb-2'>User Profile</h4>
-           <hr className='mb-2'/>
+                <div className='d-flex align-items-center justify-content-between'>
+
+                    <div>
+                    <h4 className='mb-2 display-6'>User Profile</h4>
+                    </div>
+                    <div>
+                    <Link style={{backgroundColor:'#4F46E5', color:'#fff', padding:'10px 20px', borderRadius:'5px'}} to={`/EditTeacher/${data.id}/`}><button>Edit</button></Link>
+
+                    </div>
+                </div>
+
+          
+           <hr className='mb-2 mt-4'/>
               <div className='d-flex'>
               
                <div >
@@ -100,7 +112,7 @@ const TeacherDetails = () => {
 
             <div style={{ width:'100%'}}>
            
-           <TextField style={{marginTop:'25px', width:'100%'}}  id="filled-basic" readonly label="faculity" variant="filled" value={data.faculity}/>
+           <TextField style={{marginTop:'25px', width:'100%'}}  id="filled-basic" readonly label="faculity" variant="filled" value={data.faculity || 'unknown'}/>
            </div>
               </div>
 
@@ -123,7 +135,7 @@ const TeacherDetails = () => {
 
             <div style={{ width:'100%'}}>
            
-           <TextField style={{marginTop:'25px', width:'100%'}}  id="filled-basic" readonly label="Zip Code" variant="filled" value={data.zipCode}/>
+           <TextField style={{marginTop:'25px', width:'100%'}}  id="filled-basic" readonly label="Zip Code" variant="filled" value={data.zipCode || 'unknown'}/>
            </div>
             
            <TextField multiline rows='3' style={{marginTop:'25px', width:'100%'}}  id="filled-basic" readonly label="Address" variant="filled" value={data.address}/>

@@ -63,11 +63,11 @@ export default function AddHistoryGrade() {
     console.log('Data being sent:', data);
     try {
       setOpenSnackbar(true)
-      const response = await axios.post('https://walaadashboard.pythonanywhere.com/api/historyGrade/', data);
+      const response = await axios.post('https://walaadashboard.pythonanywhere.com/api/chemistryGrade/', data);
       console.log('Response:', response);
       setTimeout(() => {
-        navigate('/historyGrade');
-      }, 2000);
+        navigate('/ChemistryGrade');
+      }, 1000);
     } catch (error) {
       console.error('Error submitting data:', error);
     }

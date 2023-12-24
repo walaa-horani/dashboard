@@ -19,6 +19,9 @@ const validationSchema = yup.object({
   nationality: yup.string().required('nationality is required'),
   email: yup.string().email().required('Email is required'),
   birthdate: yup.string().required('Birth Date is required'),
+  faculity: yup.string().required('Faculity is required'),
+  country: yup.string().required('Country Date is required'),
+  state: yup.string().required('State is required'),
 });
 
 const useYupValidationResolver = (validationSchema) =>
@@ -75,7 +78,7 @@ export default function AddStudent() {
       // Navigate after a delay or based on some condition
       setTimeout(() => {
         navigate('/teachers');
-      }, 2000); // Adjust the delay as needed
+      }, 1000); // Adjust the delay as needed
     } catch (error) {
       // Handle API error
       console.error('Error submitting data:', error);
@@ -89,10 +92,10 @@ export default function AddStudent() {
 
   return (
     <form className='container' onSubmit={handleSubmit(onSubmit)}>
-     <h1 className=' display-5 text-center m-5'>Add a Teacher</h1>
+     <h1 className=' display-5 text-center m-5'>Add a Student</h1>
       <div className='d-flex'>
         <TextField
-          label="First Name"
+          label="First Name*"
           {...register('firstName')}
           error={Boolean(errors.firstName)}
           helperText={errors.firstName?.message}
@@ -103,7 +106,7 @@ export default function AddStudent() {
         />
 
         <TextField
-          label="Last Name"
+          label="Last Name*"
           {...register('lastName')}
           error={Boolean(errors.lastName)}
           helperText={errors.lastName?.message}
@@ -115,7 +118,7 @@ export default function AddStudent() {
       </div>
       <div className='d-flex'>
         <TextField
-          label="Father Name"
+          label="Father Name*"
           {...register('fatherName')}
           error={Boolean(errors.fatherName)}
           helperText={errors.fatherName?.message}
@@ -126,7 +129,7 @@ export default function AddStudent() {
         />
 
         <TextField
-          label="Mother Name"
+          label="Mother Name*"
           {...register('motherName')}
           error={Boolean(errors.motherName)}
           helperText={errors.motherName?.message}
@@ -157,12 +160,15 @@ export default function AddStudent() {
           margin="normal"
           style={{marginRight:'10px'}}
           name='in_class'
+          type='number'
         />
 </div>
 
+
+
 <div className='d-flex'>
       <TextField
-        label="Age"
+        label="Age*"
         type='number'
         {...register('age')}
         error={Boolean(errors.age)}
@@ -173,7 +179,7 @@ export default function AddStudent() {
         name='age'
       />
       <TextField
-          label="Nationality"
+          label="Nationality*"
           {...register('nationality')}
           error={Boolean(errors.nationality)}
           helperText={errors.nationality?.message}
@@ -183,9 +189,10 @@ export default function AddStudent() {
           name='nationality'
         />
 </div>
+
 <div className='d-flex'>
 <TextField
-  label="Birth Date"
+  label="Birth Date*"
   {...register('birthdate')}
   error={Boolean(errors.birthdate)}
   helperText={errors.birthdate?.message}
@@ -198,7 +205,7 @@ export default function AddStudent() {
 />
 
       <TextField
-          label="Email"
+          label="Email*"
           {...register('email')}
           error={Boolean(errors.email)}
           helperText={errors.email?.message}
@@ -209,8 +216,56 @@ export default function AddStudent() {
         />
 </div>
 
+<div className='d-flex'>
+      <TextField
+        label="zip code"
+        {...register('zip code')}
+       
+        fullWidth
+        type='number'
+        margin="normal"
+        style={{marginRight:'10px'}}
+        name='zipCode'
+      />
+      <TextField
+          label="Faculity"
+          {...register('faculity')}
+          error={Boolean(errors.faculity)}
+          helperText={errors.faculity?.message}
+          fullWidth
+          margin="normal"
+          style={{marginRight:'10px'}}
+          name='faculity'
+        />
+</div>
+
+<div className='d-flex'>
+      <TextField
+        label="Country*"
+        {...register('country')}
+        helperText={errors.country?.message}
+        error={Boolean(errors.country)}
+
+        fullWidth
+        type='text'
+        margin="normal"
+        style={{marginRight:'10px'}}
+        name='country'
+      />
+      <TextField
+          label="State*"
+          {...register('state')}
+          error={Boolean(errors.state)}
+          helperText={errors.state?.message}
+          fullWidth
+          margin="normal"
+          style={{marginRight:'10px'}}
+          name='state'
+        />
+</div>
+
 <TextField
-  label="Address"
+  label="Address*"
   {...register('address')}
   error={Boolean(errors.address)}
   helperText={errors.address?.message}

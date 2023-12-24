@@ -10,9 +10,11 @@ import Banner from '../../../partials/Banner';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import { useThemeProvider } from '../../../utils/ThemeContext';
 
 function HistoryGrade() {
 
+  const { currentTheme } = useThemeProvider();
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [history, setHistory] = useState([]);
@@ -98,24 +100,25 @@ function HistoryGrade() {
             <table class="table table-striped">
   <thead>
     <tr className='text-center'>
+    <th style={{fontSize:'13px', color:'#6f42c1'}}>Student</th>
+    <th style={{fontSize:'13px', color:'#6f42c1'}}>Teacher</th>
+
     <th style={{fontSize:'13px', color:'#6f42c1'}}>Min Grade</th>
       <th style={{fontSize:'13px', color:'#6f42c1'}}>Father's Name</th>
-      <th style={{fontSize:'13px', color:'#6f42c1'}}>Teacher</th>
-      <th style={{fontSize:'13px', color:'#6f42c1'}}>Student</th>
     </tr>
   </thead>
   <tbody>
         {history.map((his) => (
-          <tr className='text-center' key={his.id}>
-          
+  <tr className={` text-center ${currentTheme === 'dark' ? 'text-light' : ''}`} key={his.id}>
+  <td>{his.student}</td>
+          <td>{his.teacher}</td>
             <td>{his.grade}</td>
             <td>{his.min_grade}</td>
-            <td>{his.teacher}</td>
-            <td>{his.student}</td>
+            
+            
             
            <td style={{width:'50px'}}> <Link to={`/EditHistoryGradeDetails/${his.id}`}><Icon style={{fontSize:'24px'}} icon="openmoji:edit" /></Link></td>
            <td  style={{ fontSize:'24px',width:'50px'}} > <button onClick={() => handleClickOpen(his.id)} ><Icon   icon="flat-color-icons:delete-row" /></button></td>
-           <td style={{width:'50px', fontSize:'24px'}}> <Link to={`/historyDetails/${his.id}`}><Icon icon="lets-icons:view-fill" /></Link></td>
 
             <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Delete Confirmation</DialogTitle>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useThemeProvider } from '../../utils/ThemeContext';
 
 import Sidebar from '../../partials/Sidebar';
 import Header from '../../partials/Header';
@@ -13,6 +14,7 @@ import { Button, Dialog, DialogActions, DialogContent, DialogContentText, Dialog
 
 function Math() {
 
+  const { currentTheme } = useThemeProvider();
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [math, setMath] = useState([]);
@@ -109,8 +111,8 @@ function Math() {
   </thead>
   <tbody>
         {math.map((math) => (
-          <tr className='text-center' key={math.id}>
-            <td >{math.student} </td>
+  <tr className={` text-center ${currentTheme === 'dark' ? 'text-light' : ''}`} key={math.id}>
+  <td >{math.student} </td>
             
             <td>{math.teacher}</td>
            

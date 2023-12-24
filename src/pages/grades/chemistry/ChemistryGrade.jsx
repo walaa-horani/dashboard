@@ -8,10 +8,13 @@ import { Link, Navigate, useNavigate } from 'react-router-dom';
 import Banner from '../../../partials/Banner';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useThemeProvider } from '../../../utils/ThemeContext';
+
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 
 function ChemistryGrade() {
 
+  const { currentTheme } = useThemeProvider();
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [chemistrys, setChemistry] = useState([]);
@@ -45,7 +48,7 @@ function ChemistryGrade() {
           // Close the dialog
           handleClose();
           // Navigate to '/'
-          navigate('/');
+          navigate('/ChemistryGrade');
         })
         .catch(err => {
           console.log(err);
@@ -78,12 +81,12 @@ function ChemistryGrade() {
                         <path d="M15 7H9V1c0-.6-.4-1-1-1S7 .4 7 1v6H1c-.6 0-1 .4-1 1s.4 1 1 1h6v6c0 .6.4 1 1 1s1-.4 1-1V9h6c.6 0 1-.4 1-1s-.4-1-1-1z" />
                     </svg>
                     <Link
-      to="/AddChemistry"
+      to="/AddChemistryGrade"
       className="hidden xs:block ml-2"
       style={{ transition: '#fff', textDecoration: 'none', color: '#fff' }}
       onMouseOver={(e) => (e.target.style.color =  '#fff')}
       onMouseOut={(e) => (e.target.style.color = '#fff')}  >
-      Add Grade
+      Add Chemistry Grade
     </Link>      
      </button>  
       </div>              
@@ -96,7 +99,7 @@ function ChemistryGrade() {
 
             <table class="table table-striped">
   <thead>
-    <tr className='text-center'>
+  <tr className={` text-center ${currentTheme === 'dark' ? 'text-light' : ''}`} key={history.id}>
     <th style={{fontSize:'13px', color:'#6f42c1'}}>Student</th>
     <th style={{fontSize:'13px', color:'#6f42c1'}}>Teacher</th>
 
@@ -107,8 +110,8 @@ function ChemistryGrade() {
   </thead>
   <tbody>
         {chemistrys.map((chemistry) => (
-          <tr className='text-center' key={chemistry.id}>
-           <td>{chemistry.student}</td>
+  <tr className={` text-center ${currentTheme === 'dark' ? 'text-light' : ''}`} key={chemistrys.id}>
+  <td>{chemistry.student}</td>
            <td>{chemistry.teacher}</td>
 
             <td >{chemistry.grade} </td>
@@ -116,9 +119,8 @@ function ChemistryGrade() {
             <td>{chemistry.min_grade}</td>
            
             
-           <td style={{width:'50px'}}> <Link to={`/ChemistryGrade/${chemistry.id}`}><Icon style={{fontSize:'24px'}} icon="openmoji:edit" /></Link></td>
+           <td style={{width:'50px'}}> <Link to={`/EditChemistryGradeDetails/${chemistry.id}`}><Icon style={{fontSize:'24px'}} icon="openmoji:edit" /></Link></td>
            <td  style={{ fontSize:'24px',width:'50px'}} > <button onClick={() => handleClickOpen(chemistry.id)} ><Icon   icon="flat-color-icons:delete-row" /></button></td>
-           <td style={{width:'50px', fontSize:'24px'}}> <Link to={`/ChemistryGrade/${chemistry.id}`}><Icon icon="lets-icons:view-fill" /></Link></td>
 
             <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Delete Confirmation</DialogTitle>

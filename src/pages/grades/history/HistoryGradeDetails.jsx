@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 import Sidebar from '../../../partials/Sidebar';
@@ -15,7 +14,7 @@ function HistoryGrade() {
 
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [history, setHistory] = useState([]);
+  const [students, setStudents] = useState([]);
   const [open, setOpen] = useState(false);
   const [idToDelete, setIdToDelete] = useState(null);
   const navigate = useNavigate()
@@ -31,21 +30,22 @@ function HistoryGrade() {
 
 
   useEffect(() => {
-    axios.get(`https://walaadashboard.pythonanywhere.com/api/historyGradeDetails/${id}/`)
-        .then(res => setData(res.data))
-        .catch(err => console.log(err));
-}, [id]);
-
+    // Fetch data from Django API endpoint
+    fetch('https://walaadashboard.pythonanywhere.com/api/historyGrade/')
+      .then((response) => response.json())
+      .then((data) => setStudents(data))
+      .catch((error) => console.error('Error fetching data:', error));
+  }, []);
   const handleDelete = () => {
     if (idToDelete) {
-      axios.delete(`https://walaadashboard.pythonanywhere.com/api/historyGradeDetails/${idToDelete}`)
+      axios.delete(`https://walaadashboard.pythonanywhere.com/api/historyGrade/${idToDelete}`)
         .then(res => {
           // If the deletion is successful, update the state to trigger a re-render
-          setHistory(prevHistory => prevHistory.filter(student => student.id !== idToDelete));
+          setStudents(prevStudents => prevStudents.filter(student => student.id !== idToDelete));
           // Close the dialog
           handleClose();
           // Navigate to '/'
-          navigate('/historyGrade');
+          navigate('/');
         })
         .catch(err => {
           console.log(err);
@@ -97,28 +97,32 @@ function HistoryGrade() {
             <table class="table table-striped">
   <thead>
     <tr className='text-center'>
-    <th style={{fontSize:'13px', color:'#6f42c1'}}>Grade</th>
+    <th style={{fontSize:'13px', color:'#6f42c1'}}>Name</th>
     
-      <th style={{fontSize:'13px', color:'#6f42c1'}}>Min Grade</th>
+      <th style={{fontSize:'13px', color:'#6f42c1'}}>age</th>
       <th style={{fontSize:'13px', color:'#6f42c1'}}>Father's Name</th>
-      <th style={{fontSize:'13px', color:'#6f42c1'}}>Teacher</th>
-      <th style={{fontSize:'13px', color:'#6f42c1'}}>Student</th>
-    
+      <th style={{fontSize:'13px', color:'#6f42c1'}}>Mother's Name</th>
+      <th style={{fontSize:'13px', color:'#6f42c1'}}>Class</th>
+      <th style={{fontSize:'13px', color:'#6f42c1'}}>Phone</th>
+      <th style={{fontSize:'13px', color:'#6f42c1'}}>Nationality</th>
 
     </tr>
   </thead>
   <tbody>
-        {history.map((his) => (
-          <tr className='text-center' key={his.id}>
-          
-            <td>{his.grade}</td>
-            <td>{his.min_grade}</td>
-            <td>{his.teacher}</td>
-            <td>{his.student}</td>
+        {students.map((student) => (
+          <tr className='text-center' key={student.id}>
+            <td >{student.firstName} {student.lastName}</td>
             
-           <td style={{width:'50px'}}> <Link to={`/editHistoryGrade/${student.id}`}><Icon style={{fontSize:'24px'}} icon="openmoji:edit" /></Link></td>
+            <td>{student.age}</td>
+            <td>{student.fatherName}</td>
+            <td>{student.motherName}</td>
+            <td>{student.in_class}</td>
+            <td>{student.phone}</td>
+            <td>{student.nationality}</td>
+            
+           <td style={{width:'50px'}}> <Link to={`/EditStudent/${student.id}`}><Icon style={{fontSize:'24px'}} icon="openmoji:edit" /></Link></td>
            <td  style={{ fontSize:'24px',width:'50px'}} > <button onClick={() => handleClickOpen(student.id)} ><Icon   icon="flat-color-icons:delete-row" /></button></td>
-           <td style={{width:'50px', fontSize:'24px'}}> <Link to={`/historyDetails/${student.id}`}><Icon icon="lets-icons:view-fill" /></Link></td>
+           <td style={{width:'50px', fontSize:'24px'}}> <Link to={`/studentDetails/${student.id}`}><Icon icon="lets-icons:view-fill" /></Link></td>
 
             <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Delete Confirmation</DialogTitle>

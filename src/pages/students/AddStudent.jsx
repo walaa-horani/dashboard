@@ -73,7 +73,7 @@ export default function AddStudent() {
        // Navigate after a delay or based on some condition
        setTimeout(() => {
         navigate('/');
-      }, 2000); 
+      }, 1000); 
       
       // Handle the API response as needed
       console.log(response.data);
@@ -92,7 +92,7 @@ export default function AddStudent() {
      <h1 className=' display-5 text-center m-5'>Add a Student</h1>
       <div className='d-flex'>
         <TextField
-          label="First Name"
+          label="First Name*"
           {...register('firstName')}
           error={Boolean(errors.firstName)}
           helperText={errors.firstName?.message}
@@ -103,7 +103,7 @@ export default function AddStudent() {
         />
 
         <TextField
-          label="Last Name"
+          label="Last Name*"
           {...register('lastName')}
           error={Boolean(errors.lastName)}
           helperText={errors.lastName?.message}
@@ -115,7 +115,7 @@ export default function AddStudent() {
       </div>
       <div className='d-flex'>
         <TextField
-          label="Father Name"
+          label="Father Name*"
           {...register('fatherName')}
           error={Boolean(errors.fatherName)}
           helperText={errors.fatherName?.message}
@@ -126,7 +126,7 @@ export default function AddStudent() {
         />
 
         <TextField
-          label="Mother Name"
+          label="Mother Name*"
           {...register('motherName')}
           error={Boolean(errors.motherName)}
           helperText={errors.motherName?.message}
@@ -157,6 +157,7 @@ export default function AddStudent() {
           margin="normal"
           style={{marginRight:'10px'}}
           name='in_class'
+          type='number'
         />
 </div>
 
@@ -164,7 +165,7 @@ export default function AddStudent() {
 
 <div className='d-flex'>
       <TextField
-        label="Age"
+        label="Age*"
         type='number'
         {...register('age')}
         error={Boolean(errors.age)}
@@ -175,7 +176,7 @@ export default function AddStudent() {
         name='age'
       />
       <TextField
-          label="Nationality"
+          label="Nationality*"
           {...register('nationality')}
           error={Boolean(errors.nationality)}
           helperText={errors.nationality?.message}
@@ -188,7 +189,7 @@ export default function AddStudent() {
 
 <div className='d-flex'>
 <TextField
-  label="Birth Date"
+  label="Birth Date*"
   {...register('birthdate')}
   error={Boolean(errors.birthdate)}
   helperText={errors.birthdate?.message}
@@ -201,7 +202,7 @@ export default function AddStudent() {
 />
 
       <TextField
-          label="Email"
+          label="Email*"
           {...register('email')}
           error={Boolean(errors.email)}
           helperText={errors.email?.message}
@@ -237,9 +238,11 @@ export default function AddStudent() {
 
 <div className='d-flex'>
       <TextField
-        label="Country"
+        label="Country*"
         {...register('country')}
-       
+        helperText={errors.country?.message}
+        error={Boolean(errors.country)}
+
         fullWidth
         type='text'
         margin="normal"
@@ -247,7 +250,7 @@ export default function AddStudent() {
         name='country'
       />
       <TextField
-          label="State"
+          label="State*"
           {...register('state')}
           error={Boolean(errors.state)}
           helperText={errors.state?.message}
@@ -259,7 +262,7 @@ export default function AddStudent() {
 </div>
 
 <TextField
-  label="Address"
+  label="Address*"
   {...register('address')}
   error={Boolean(errors.address)}
   helperText={errors.address?.message}

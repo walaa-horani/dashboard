@@ -10,12 +10,14 @@ import Banner from '../../partials/Banner';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import { useThemeProvider } from '../../utils/ThemeContext';
 
 function History() {
+  const { currentTheme } = useThemeProvider();
 
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [math, setMath] = useState([]);
+  const [history, setHistory] = useState([]);
   const [open, setOpen] = useState(false);
   const [idToDelete, setIdToDelete] = useState(null);
   const navigate = useNavigate()
@@ -35,7 +37,7 @@ function History() {
     // Fetch data from Django API endpoint
     fetch('https://walaadashboard.pythonanywhere.com/api/history/')
       .then((response) => response.json())
-      .then((data) => setMath(data))
+      .then((data) => setHistory(data))
       .catch((error) => console.error('Error fetching data:', error));
   }, []);
   const handleDelete = () => {
@@ -43,11 +45,11 @@ function History() {
       axios.delete(`https://walaadashboard.pythonanywhere.com/api/history/${idToDelete}`)
         .then(res => {
           // If the deletion is successful, update the state to trigger a re-render
-          setMath(prevhistory => prevhistory.filter(math => math.id !== idToDelete));
+          setHistory(prevhistory => prevhistory.filter(history => history.id !== idToDelete));
           // Close the dialog
           handleClose();
           // Navigate to '/'
-          navigate('/math');
+          navigate('/history');
         })
         .catch(err => {
           console.log(err);
@@ -108,19 +110,19 @@ function History() {
     </tr>
   </thead>
   <tbody>
-        {math.map((math) => (
-          <tr className='text-center' key={math.id}>
-            <td >{math.student} </td>
+        {history.map((history) => (
+  <tr className={` text-center ${currentTheme === 'dark' ? 'text-light' : ''}`} key={history.id}>
+  <td >{history.student} </td>
             
-            <td>{math.teacher}</td>
+            <td>{history.teacher}</td>
            
-            <td>{math.time}</td>
-            <td>{math.date}</td>
-            <td>{math.place}</td>
+            <td>{history.time}</td>
+            <td>{history.date}</td>
+            <td>{history.place}</td>
            
             
-           <td style={{width:'50px'}}> <Link to={`/Editmath/${math.id}`}><Icon style={{fontSize:'24px'}} icon="openmoji:edit" /></Link></td>
-           <td  style={{ fontSize:'24px',width:'50px'}} > <button onClick={() => handleClickOpen(math.id)} ><Icon   icon="flat-color-icons:delete-row" /></button></td>
+           <td style={{width:'50px'}}> <Link to={`/Edithistory/${history.id}`}><Icon style={{fontSize:'24px'}} icon="openmoji:edit" /></Link></td>
+           <td  style={{ fontSize:'24px',width:'50px'}} > <button onClick={() => handleClickOpen(history.id)} ><Icon   icon="flat-color-icons:delete-row" /></button></td>
            <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Delete Confirmation</DialogTitle>
         <DialogContent>

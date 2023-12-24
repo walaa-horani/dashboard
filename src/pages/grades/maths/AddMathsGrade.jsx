@@ -63,11 +63,11 @@ export default function AddHistoryGrade() {
     console.log('Data being sent:', data);
     try {
       setOpenSnackbar(true)
-      const response = await axios.post('https://walaadashboard.pythonanywhere.com/api/historyGrade/', data);
+      const response = await axios.post('https://walaadashboard.pythonanywhere.com/api/mathGrade/', data);
       console.log('Response:', response);
       setTimeout(() => {
-        navigate('/historyGrade');
-      }, 2000);
+        navigate('/mathGrade');
+      }, 1000);
     } catch (error) {
       console.error('Error submitting data:', error);
     }
@@ -109,7 +109,7 @@ export default function AddHistoryGrade() {
 
   return (
     <form className='container' onSubmit={handleSubmit(onSubmit)}>
-     <h1 className=' display-5 text-center m-5'>Add a History Grade</h1>
+     <h1 className=' display-5 text-center m-5'>Add a Math Grade</h1>
       <div className='d-flex'>
     
 

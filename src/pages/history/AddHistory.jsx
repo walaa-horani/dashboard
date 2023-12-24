@@ -67,7 +67,7 @@ export default function AddHistory() {
       console.log('Response:', response);
       setTimeout(() => {
         navigate('/history');
-      }, 2000);
+      }, 1000);
     } catch (error) {
       console.error('Error submitting data:', error);
     }

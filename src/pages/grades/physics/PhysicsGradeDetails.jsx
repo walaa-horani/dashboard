@@ -10,7 +10,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 
-function ChemistryGrade() {
+function PhysicsGrade() {
 
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -31,14 +31,14 @@ function ChemistryGrade() {
 
   useEffect(() => {
     // Fetch data from Django API endpoint
-    fetch('https://walaadashboard.pythonanywhere.com/api/ChemistryGrade/')
+    fetch('https://walaadashboard.pythonanywhere.com/api/physicsGrade/')
       .then((response) => response.json())
       .then((data) => setStudents(data))
       .catch((error) => console.error('Error fetching data:', error));
   }, []);
   const handleDelete = () => {
     if (idToDelete) {
-      axios.delete(`https://walaadashboard.pythonanywhere.com/api/chemistryGrade/${idToDelete}`)
+      axios.delete(`https://walaadashboard.pythonanywhere.com/api/physicsGrade/${idToDelete}`)
         .then(res => {
           // If the deletion is successful, update the state to trigger a re-render
           setStudents(prevStudents => prevStudents.filter(student => student.id !== idToDelete));
@@ -160,4 +160,4 @@ function ChemistryGrade() {
 }
 
 
-export default ChemistryGrade;
+export default PhysicsGrade;
