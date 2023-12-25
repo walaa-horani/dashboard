@@ -6,10 +6,12 @@ import axios from 'axios';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import { Select, MenuItem, FormControl, InputLabel, FormHelperText } from '@mui/material';
+import { useThemeProvider } from '../../utils/ThemeContext';
 
 import { Icon } from '@iconify/react';
 const EditChemistry = () => {
-  
+  const { currentTheme } = useThemeProvider();
+
     const {id} = useParams()
     const [data, setData] = useState({
       teacher: null, // Set default teacher value
@@ -138,16 +140,20 @@ const EditChemistry = () => {
     <h1 className=' display-5 text-center m-5'>Edit a Chemistry</h1>
      <div className='d-flex'>
      <FormControl fullWidth margin="normal">
-  <InputLabel htmlFor="teacher-select">Teacher</InputLabel>
+  <InputLabel htmlFor="teacher-select" className={currentTheme === 'dark' ? 'text-light' : ''}>
+    Teacher
+  </InputLabel>
   <Select
     style={{ marginRight: '10px' }}
     label="Teacher"
     name="teacher"
+    
     error
     value={data.teacher}
     onChange={(e) => setData({ ...data, teacher: e.target.value })}
     inputProps={{
       id: 'teacher-select',
+      className: currentTheme === 'dark' ? 'text-light' : '',
     }}
   >
     {teachers.map((teacher) => (
@@ -159,14 +165,18 @@ const EditChemistry = () => {
   <FormHelperText>{errors.teacher}</FormHelperText>
 </FormControl>
 
+
 <FormControl fullWidth margin="normal">
-  <InputLabel htmlFor="student-select">Student</InputLabel>
+  <InputLabel htmlFor="student-select" className={currentTheme === 'dark' ? 'text-light' : ''}>
+    Student
+  </InputLabel>
   <Select
     label="Student"
     error
     name="student"
     inputProps={{
       id: 'student-select',
+      className: currentTheme === 'dark' ? 'text-light' : '',
     }}
     value={data.student}
     onChange={(e) => setData({ ...data, student: e.target.value })}
@@ -181,55 +191,87 @@ const EditChemistry = () => {
 </FormControl>
 
 
+
 </div>
 <div className='d-flex'>
-       <TextField
-         label="time"
-         fullWidth
-         error={Boolean(errors.time)}
+<TextField
+  label="time"
+  fullWidth
+  
+  error={Boolean(errors.time)}
   helperText={errors.time}
-         name='time'
-         margin="normal"
-         style={{marginRight:'10px'}}
-         onChange={e=> setData({...data,time:e.target.value})}  
-         value={data.time} 
-         InputLabelProps={{
-          shrink: Boolean(data.time),  // Shrink label only if there is a value
-        }}
+  name='time'
+  margin="normal"
+  style={{ marginRight: '10px' }}
+  onChange={e => setData({ ...data, time: e.target.value })}
+  value={data.time}
+  className={currentTheme === 'dark' ? 'border border-light' : ''}
 
-       />
+  InputProps={{
+    style: {
+      color: currentTheme === 'dark' ? '#fff' : '', // Set the text color based on the theme
+    },
+  }}
+  InputLabelProps={{
+    className: currentTheme === 'dark' ? 'text-light' : '',
+    shrink: Boolean(data.time), // Shrink label only if there is a value
+  }}
+/>
+
      
    
-       <TextField
-         label="date"
-         fullWidth
-         error={Boolean(errors.date)}
-         helperText={errors.date}
-         margin="normal"
+     <TextField
+  label="date"
+  fullWidth
+  className={currentTheme === 'dark' ? 'border border-light' : ''}
 
-         style={{marginRight:'10px'}}
-         onChange={e=> setData({...data,date:e.target.value})} 
-           name='date'
-           value={data.date}
-           InputLabelProps={{
-            shrink: Boolean(data.date),  // Shrink label only if there is a value
-          }}
-       />
+  error={Boolean(errors.date)}
+  helperText={errors.date}
+  margin="normal"
+  style={{ marginRight: '10px' }}
+  onChange={e => setData({ ...data, date: e.target.value })}
+  name='date'
+  value={data.date}
+  InputProps={{
+    style: {
+      color: currentTheme === 'dark' ? '#fff' : '', // Set the text color based on the theme
+    },
+  }}
+  InputLabelProps={{
+    style: {
+      color: currentTheme === 'dark' ? '#fff' : '', // Set the label text color based on the theme
+    },
+    className: currentTheme === 'dark' ? 'text-light' : '',
+    shrink: Boolean(data.date), // Shrink label only if there is a value
+  }}
+/>
+
 </div>
-       <TextField
-         label="place"
-         onChange={e=> setData({...data,place:e.target.value})}   
-        name='place'
-         fullWidth
-         error={Boolean(errors.place)}
-         helperText={errors.place}
-         margin="normal"
-         style={{marginRight:'10px'}}
-         value={data.place}
-         InputLabelProps={{
-          shrink: Boolean(data.place),  // Shrink label only if there is a value
-        }}
-       />
+<TextField
+  label="place"
+  onChange={e => setData({ ...data, place: e.target.value })}
+  name='place'
+  className={currentTheme === 'dark' ? 'border border-light' : ''}
+
+  fullWidth
+  error={Boolean(errors.place)}
+  helperText={errors.place}
+  margin="normal"
+  style={{ marginRight: '10px' }}
+  value={data.place}
+  InputProps={{
+    style: {
+      color: currentTheme === 'dark' ? '#fff' : '', // Set the text color based on the theme
+    },
+  }}
+  InputLabelProps={{
+    style: {
+      color: currentTheme === 'dark' ? '#fff' : '', // Set the label text color based on the theme
+    },
+    shrink: Boolean(data.place),  // Shrink label only if there is a value
+  }}
+/>
+
        
      
         

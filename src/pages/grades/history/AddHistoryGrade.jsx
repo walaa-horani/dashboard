@@ -8,6 +8,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import { Select, MenuItem, FormControl, InputLabel, FormHelperText } from '@mui/material';
+import { useThemeProvider } from '../../../utils/ThemeContext';
 
 const validationSchema = yup.object({
   teacher: yup.string().required('teacher is required'),
@@ -57,6 +58,7 @@ export default function AddHistoryGrade() {
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [teachers, setTeachers] = useState([]);
   const [students, setStudent] = useState([]);
+  const { currentTheme } = useThemeProvider();
 
   
   const onSubmit = async (data) => {
@@ -109,52 +111,60 @@ export default function AddHistoryGrade() {
 
   return (
     <form className='container' onSubmit={handleSubmit(onSubmit)}>
-     <h1 className=' display-5 text-center m-5'>Add a History Grade</h1>
+     <h1 className=' display-5 text-center m-5'>Add a Chemistry Grade</h1>
       <div className='d-flex'>
     
 
-<FormControl fullWidth margin="normal">
-      <InputLabel htmlFor="student-select">Student</InputLabel>
-      <Select
-        label="Student"
-        {...register('student')}
-        error={Boolean(errors.student)}
-        name="student"
-        style={{marginRight:'15px'}}
-        inputProps={{
-          id: 'student-select',
-        }}
-      >
-        {students.map((student) => (
-          <MenuItem key={student.id} value={student.id}>
-            {student.firstName} {/* Adjust this based on your student object structure */}
-          </MenuItem>
-        ))}
-      </Select>
-      <FormHelperText>{errors.student?.message}</FormHelperText>
-    </FormControl>
+      <FormControl className={currentTheme === 'dark' ? 'text-light' : ''} fullWidth margin="normal">
+  <InputLabel className={currentTheme === 'dark' ? 'text-light' : ''} htmlFor="student-select">
+    Student
+  </InputLabel>
+  <Select
+    label="Student"
+    {...register('student')}
+    error={Boolean(errors.student)}
+    name="student"
+    className={currentTheme === 'dark' ? 'border border-light' : ''}
+    inputProps={{
+      id: 'student-select',
+      className: currentTheme === 'dark' ? 'text-light' : '',
 
-    <FormControl fullWidth margin="normal">
-      <InputLabel htmlFor="teacher-select">Teacher</InputLabel>
-      <Select
-        label="Teacher"
-           
-        {...register('teacher')}
-        error={Boolean(errors.teacher)}
-        name="teacher"
-        
-        inputProps={{
-          id: 'teacher-select',
-        }}
-      >
-        {teachers.map((teacher) => (
-          <MenuItem key={teacher.id} value={teacher.id}>
-            {teacher.firstName} {/* Adjust this based on your student object structure */}
-          </MenuItem>
-        ))}
-      </Select>
-    
-    </FormControl>
+    }}
+  >
+    {students.map((student) => (
+      <MenuItem key={student.id} value={student.id}>
+        <p className={currentTheme === 'dark' ? 'text-light' : ''}>
+          {student.firstName} {student.lastName}
+        </p>
+      </MenuItem>
+    ))}
+  </Select>
+  <FormHelperText>{errors.student?.message}</FormHelperText>
+</FormControl>
+
+<FormControl fullWidth margin="normal">
+  <InputLabel className={currentTheme === 'dark' ? 'text-light' : ''} htmlFor="teacher-select">
+    Teacher
+  </InputLabel>
+  <Select
+    label="Teacher"
+    {...register('teacher')}
+    error={Boolean(errors.teacher)}
+    name="teacher"
+    className={currentTheme === 'dark' ? 'border border-light' : ''}
+    inputProps={{
+      id: 'teacher-select',
+      className: currentTheme === 'dark' ? 'text-light' : '',
+
+    }}
+  >
+    {teachers.map((teacher) => (
+      <MenuItem key={teacher.id} value={teacher.id}>
+        {teacher.firstName} {/* Adjust this based on your student object structure */}
+      </MenuItem>
+    ))}
+  </Select>
+</FormControl>
 
         
       </div>
@@ -162,6 +172,8 @@ export default function AddHistoryGrade() {
         <TextField
         type='number'
           label="Grade"
+          className={currentTheme === 'dark' ? 'border border-light' : ''}
+
           {...register('grade')}
           error={Boolean(errors.grade)}
           helperText={errors.grade?.message}
@@ -169,17 +181,22 @@ export default function AddHistoryGrade() {
           margin="normal"
           style={{marginRight:'10px'}}
           name='grade'
-          InputLabelProps={{ shrink: true }}
+          InputLabelProps={{ shrink: true, className: currentTheme === 'dark' ? 'text-light' : '' }}
+          InputProps={{ className: currentTheme === 'dark' ? ' border border-light text-light' : '' }}
+          
         />
 
         <TextField
           label="Min Grade"
           type='number'
+          className={currentTheme === 'dark' ? 'border border-light' : ''}
+          InputLabelProps={{ shrink: true, className: currentTheme === 'dark' ? 'text-light' : '' }}
+          InputProps={{ className: currentTheme === 'dark' ? ' border border-light text-light' : '' }}
+
           {...register('min_grade')}
           error={Boolean(errors.min_grade)}
           helperText={errors.min_grade?.message}
           fullWidth
-          InputLabelProps={{ shrink: true }}
           margin="normal"
           style={{marginRight:'10px'}}
           name='min_grade'        />

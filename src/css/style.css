@@ -17,3 +17,12 @@
     /* Light mode text color */
     color: #000000 !important;
   }
+
+
+  .text-light {
+    color: #fff; /* Light text color */
+  }
+  
+  .border-light {
+    border-color: #fff; /* Light border color */
+  }
