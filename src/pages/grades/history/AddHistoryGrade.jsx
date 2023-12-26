@@ -111,60 +111,59 @@ export default function AddHistoryGrade() {
 
   return (
     <form className='container' onSubmit={handleSubmit(onSubmit)}>
-     <h1 className=' display-5 text-center m-5'>Add a Chemistry Grade</h1>
+     <h1 className=' display-5 text-center m-5'>Add a History Grade</h1>
       <div className='d-flex'>
     
 
       <FormControl className={currentTheme === 'dark' ? 'text-light' : ''} fullWidth margin="normal">
-  <InputLabel className={currentTheme === 'dark' ? 'text-light' : ''} htmlFor="student-select">
-    Student
-  </InputLabel>
-  <Select
-    label="Student"
-    {...register('student')}
-    error={Boolean(errors.student)}
-    name="student"
-    className={currentTheme === 'dark' ? 'border border-light' : ''}
-    inputProps={{
-      id: 'student-select',
-      className: currentTheme === 'dark' ? 'text-light' : '',
+      <InputLabel className={currentTheme === 'dark' ? 'text-light' : ''} htmlFor="student-select">Student</InputLabel>
+      <Select
+      
+        label="Student"
+        {...register('student')}
+        error={Boolean(errors.student)}
+        name="student"
+        
+        inputProps={{
+          id: 'student-select',
+          className: currentTheme === 'dark' ? 'text-light border border-light' : '',
 
-    }}
-  >
-    {students.map((student) => (
-      <MenuItem key={student.id} value={student.id}>
-        <p className={currentTheme === 'dark' ? 'text-light' : ''}>
-          {student.firstName} {student.lastName}
-        </p>
-      </MenuItem>
-    ))}
-  </Select>
-  <FormHelperText>{errors.student?.message}</FormHelperText>
-</FormControl>
+          
+          
+        }}
+      >
+        {students.map((student) => (
+          <MenuItem  key={student.id} value={student.id} >
+          <p > {student.firstName} {student.lastName}</p>   {/* Adjust this based on your student object structure */}
+          </MenuItem>
+        ))}
+      </Select>
+      <FormHelperText>{errors.student?.message}</FormHelperText>
+    </FormControl>
 
-<FormControl fullWidth margin="normal">
-  <InputLabel className={currentTheme === 'dark' ? 'text-light' : ''} htmlFor="teacher-select">
-    Teacher
-  </InputLabel>
-  <Select
-    label="Teacher"
-    {...register('teacher')}
-    error={Boolean(errors.teacher)}
-    name="teacher"
-    className={currentTheme === 'dark' ? 'border border-light' : ''}
-    inputProps={{
-      id: 'teacher-select',
-      className: currentTheme === 'dark' ? 'text-light' : '',
+    <FormControl   fullWidth margin="normal">
+      <InputLabel  className={currentTheme === 'dark' ? 'text-light' : ''} htmlFor="teacher-select">Teacher</InputLabel>
+      <Select
+        label="Teacher"
+      
+        {...register('teacher')}
+        error={Boolean(errors.teacher)}
+        name="teacher"
+        
+        inputProps={{
+          id: 'teacher-select',
+          className: currentTheme === 'dark' ? 'text-light border border-light' : '',
 
-    }}
-  >
-    {teachers.map((teacher) => (
-      <MenuItem key={teacher.id} value={teacher.id}>
-        {teacher.firstName} {/* Adjust this based on your student object structure */}
-      </MenuItem>
-    ))}
-  </Select>
-</FormControl>
+        }}
+      >
+        {teachers.map((teacher) => (
+          <MenuItem key={teacher.id} value={teacher.id}>
+            {teacher.firstName} {/* Adjust this based on your student object structure */}
+          </MenuItem>
+        ))}
+      </Select>
+    
+    </FormControl>
 
         
       </div>

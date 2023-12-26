@@ -111,7 +111,7 @@ export default function AddPysics() {
   return (
     <Container>
     <form className='container' onSubmit={handleSubmit(onSubmit)}>
-     <h1 className=' display-5 text-center m-5'>Add a Chemistry Lesson</h1>
+     <h1 className=' display-5 text-center m-5'>Add a Physics Lesson</h1>
       <div className='d-flex'>
     
 

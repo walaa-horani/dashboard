@@ -130,7 +130,7 @@ const EditHistoryGrade = () => {
   
   return (
     <div><form onSubmit={handleSubmit} className='container' >
-    <h1 className=' display-5 text-center m-5'>Edit a Chemistry Grade</h1>
+    <h1 className=' display-5 text-center m-5'>Edit a Physics Grade</h1>
      <div className='d-flex'>
      <FormControl fullWidth margin="normal">
   <InputLabel htmlFor="teacher-select" className={currentTheme === 'dark' ? 'text-light' : ''}>

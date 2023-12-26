@@ -112,11 +112,11 @@ export default function AddHistory() {
   return (
     <Container>
     <form className='container' onSubmit={handleSubmit(onSubmit)}>
-     <h1 className=' display-5 text-center m-5'>Add a Chemistry Lesson</h1>
+     <h1 className=' display-5 text-center m-5'>Add a History Lesson</h1>
       <div className='d-flex'>
     
 
-<FormControl className={currentTheme === 'dark' ? 'text-light' : ''} fullWidth margin="normal">
+      <FormControl className={currentTheme === 'dark' ? 'text-light' : ''} fullWidth margin="normal">
       <InputLabel className={currentTheme === 'dark' ? 'text-light' : ''} htmlFor="student-select">Student</InputLabel>
       <Select
       

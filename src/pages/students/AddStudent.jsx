@@ -7,6 +7,8 @@ import { Icon } from '@iconify/react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
+import { useThemeProvider } from '../../utils/ThemeContext';
+
 const validationSchema = yup.object({
   firstName: yup.string().required('First Name is required'),
   lastName: yup.string().required('Last Name is required'),
@@ -62,6 +64,7 @@ export default function AddStudent() {
   });
   const navigate = useNavigate()
   const [openSnackbar, setOpenSnackbar] = useState(false);
+  const { currentTheme } = useThemeProvider();
 
   const onSubmit = async (data) => {
     console.log('Data being sent:', data); // Add this line to inspect the data being sent
@@ -90,6 +93,11 @@ export default function AddStudent() {
   return (
     <form className='container' onSubmit={handleSubmit(onSubmit)}>
      <h1 className=' display-5 text-center m-5'>Add a Student</h1>
+     <div className='d-flex '>
+      <div style={{flexBasis:'30%'}}>
+        <img />
+      </div>
+      <div style={{flexBasis:'70%'}}>
       <div className='d-flex'>
         <TextField
           label="First Name*"
@@ -100,6 +108,9 @@ export default function AddStudent() {
           margin="normal"
           style={{marginRight:'10px'}}
           name='firstName'
+          InputLabelProps={{ shrink: true, className: currentTheme === 'dark' ? 'text-light' : '' }}
+          InputProps={{ className: currentTheme === 'dark' ? ' border border-light text-light' : '' }}
+
         />
 
         <TextField
@@ -111,11 +122,17 @@ export default function AddStudent() {
           margin="normal"
           style={{marginRight:'10px'}}
           name='lastName'
+          InputLabelProps={{ shrink: true, className: currentTheme === 'dark' ? 'text-light' : '' }}
+          InputProps={{ className: currentTheme === 'dark' ? ' border border-light text-light' : '' }}
+
         />
       </div>
       <div className='d-flex'>
         <TextField
           label="Father Name*"
+          InputLabelProps={{ shrink: true, className: currentTheme === 'dark' ? 'text-light' : '' }}
+          InputProps={{ className: currentTheme === 'dark' ? ' border border-light text-light' : '' }}
+
           {...register('fatherName')}
           error={Boolean(errors.fatherName)}
           helperText={errors.fatherName?.message}
@@ -131,9 +148,13 @@ export default function AddStudent() {
           error={Boolean(errors.motherName)}
           helperText={errors.motherName?.message}
           fullWidth
+          InputLabelProps={{ shrink: true, className: currentTheme === 'dark' ? 'text-light' : '' }}
+          InputProps={{ className: currentTheme === 'dark' ? ' border border-light text-light' : '' }}
+
           margin="normal"
           style={{marginRight:'10px'}}
           name='motherName'        />
+          
         
       </div>
       <div className='d-flex'>
@@ -143,6 +164,9 @@ export default function AddStudent() {
         error={Boolean(errors.phone)}
         helperText={errors.phone?.message}
         fullWidth
+        InputLabelProps={{ shrink: true, className: currentTheme === 'dark' ? 'text-light' : '' }}
+        InputProps={{ className: currentTheme === 'dark' ? ' border border-light text-light' : '' }}
+
         type='number'
         margin="normal"
         style={{marginRight:'10px'}}
@@ -154,6 +178,9 @@ export default function AddStudent() {
           error={Boolean(errors.in_class)}
           helperText={errors.in_class?.message}
           fullWidth
+          InputLabelProps={{ shrink: true, className: currentTheme === 'dark' ? 'text-light' : '' }}
+          InputProps={{ className: currentTheme === 'dark' ? ' border border-light text-light' : '' }}
+
           margin="normal"
           style={{marginRight:'10px'}}
           name='in_class'
@@ -166,6 +193,9 @@ export default function AddStudent() {
 <div className='d-flex'>
       <TextField
         label="Age*"
+        InputLabelProps={{ shrink: true, className: currentTheme === 'dark' ? 'text-light' : '' }}
+        InputProps={{ className: currentTheme === 'dark' ? ' border border-light text-light' : '' }}
+
         type='number'
         {...register('age')}
         error={Boolean(errors.age)}
@@ -181,6 +211,9 @@ export default function AddStudent() {
           error={Boolean(errors.nationality)}
           helperText={errors.nationality?.message}
           fullWidth
+          InputLabelProps={{ shrink: true, className: currentTheme === 'dark' ? 'text-light' : '' }}
+          InputProps={{ className: currentTheme === 'dark' ? ' border border-light text-light' : '' }}
+
           margin="normal"
           style={{marginRight:'10px'}}
           name='nationality'
@@ -194,11 +227,13 @@ export default function AddStudent() {
   error={Boolean(errors.birthdate)}
   helperText={errors.birthdate?.message}
   fullWidth
+  
   type='date'
   margin="normal"
   style={{ marginRight: '10px' }}
   name='birthdate'
-  InputLabelProps={{ shrink: true }} 
+  InputLabelProps={{ shrink: true, className: currentTheme === 'dark' ? 'text-light' : '' }}
+  InputProps={{ className: currentTheme === 'dark' ? ' border border-light text-light' : '' }}
 />
 
       <TextField
@@ -210,6 +245,9 @@ export default function AddStudent() {
           margin="normal"
           style={{marginRight:'10px'}}
           name='email'
+          InputLabelProps={{ shrink: true, className: currentTheme === 'dark' ? 'text-light' : '' }}
+          InputProps={{ className: currentTheme === 'dark' ? ' border border-light text-light' : '' }}
+
         />
 </div>
 
@@ -223,6 +261,9 @@ export default function AddStudent() {
         margin="normal"
         style={{marginRight:'10px'}}
         name='zipCode'
+        InputLabelProps={{ shrink: true, className: currentTheme === 'dark' ? 'text-light' : '' }}
+        InputProps={{ className: currentTheme === 'dark' ? ' border border-light text-light' : '' }}
+
       />
       <TextField
           label="Faculity"
@@ -233,6 +274,9 @@ export default function AddStudent() {
           margin="normal"
           style={{marginRight:'10px'}}
           name='faculity'
+          InputLabelProps={{ shrink: true, className: currentTheme === 'dark' ? 'text-light' : '' }}
+          InputProps={{ className: currentTheme === 'dark' ? ' border border-light text-light' : '' }}
+
         />
 </div>
 
@@ -242,6 +286,9 @@ export default function AddStudent() {
         {...register('country')}
         helperText={errors.country?.message}
         error={Boolean(errors.country)}
+        InputLabelProps={{ shrink: true, className: currentTheme === 'dark' ? 'text-light' : '' }}
+        InputProps={{ className: currentTheme === 'dark' ? ' border border-light text-light' : '' }}
+
 
         fullWidth
         type='text'
@@ -253,6 +300,9 @@ export default function AddStudent() {
           label="State*"
           {...register('state')}
           error={Boolean(errors.state)}
+          InputLabelProps={{ shrink: true, className: currentTheme === 'dark' ? 'text-light' : '' }}
+          InputProps={{ className: currentTheme === 'dark' ? ' border border-light text-light' : '' }}
+
           helperText={errors.state?.message}
           fullWidth
           margin="normal"
@@ -263,6 +313,9 @@ export default function AddStudent() {
 
 <TextField
   label="Address*"
+  InputLabelProps={{ shrink: true, className: currentTheme === 'dark' ? 'text-light' : '' }}
+  InputProps={{ className: currentTheme === 'dark' ? ' border border-light text-light' : '' }}
+
   {...register('address')}
   error={Boolean(errors.address)}
   helperText={errors.address?.message}
@@ -290,6 +343,8 @@ export default function AddStudent() {
           Created Successfully!
         </Alert>
       </Snackbar>
+      </div>
+      </div>
     </form>
   );
 }

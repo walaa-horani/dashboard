@@ -92,7 +92,7 @@ function Dashboard() {
                         <path d="M15 7H9V1c0-.6-.4-1-1-1S7 .4 7 1v6H1c-.6 0-1 .4-1 1s.4 1 1 1h6v6c0 .6.4 1 1 1s1-.4 1-1V9h6c.6 0 1-.4 1-1s-.4-1-1-1z" />
                     </svg>
                     <Link
-      to="/AddTeacher"
+      to="/AddStudent"
       className="hidden xs:block ml-2"
       style={{ transition: '#fff', textDecoration: 'none', color: '#fff' }}
       onMouseOver={(e) => (e.target.style.color =  '#fff')}
