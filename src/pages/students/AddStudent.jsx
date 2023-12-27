@@ -1,6 +1,6 @@
 import React, { useCallback ,useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { TextField, Button } from '@mui/material';
+import { useForm, Controller } from 'react-hook-form';
+import { TextField, Button  } from '@mui/material';
 import * as yup from 'yup';
 import axios from 'axios';
 import { Icon } from '@iconify/react';
@@ -8,6 +8,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import { useThemeProvider } from '../../utils/ThemeContext';
+import Avatar from '@mui/material/Avatar';
 
 const validationSchema = yup.object({
   firstName: yup.string().required('First Name is required'),
@@ -24,6 +25,10 @@ const validationSchema = yup.object({
   faculity: yup.string().required('Faculity is required'),
   country: yup.string().required('Country Date is required'),
   state: yup.string().required('State is required'),
+  image: yup.mixed().test('fileSize', 'File size is too large', (value) => {
+    if (!value.length) return true; // no file
+    return value[0].size <= 1024 * 1024; // 1MB limit
+  }),
 
 });
 
@@ -59,7 +64,7 @@ const useYupValidationResolver = (validationSchema) =>
   );
 
 export default function AddStudent() {
-  const { handleSubmit, register, formState: { errors } } = useForm({
+  const { handleSubmit, register,control,setValue, formState: { errors } } = useForm({
     resolver: useYupValidationResolver(validationSchema),
   });
   const navigate = useNavigate()
@@ -71,21 +76,54 @@ export default function AddStudent() {
     try {
       setOpenSnackbar(true);
 
-      const response = await axios.post('https://walaadashboard.pythonanywhere.com/api/students/', data);
-     
-       // Navigate after a delay or based on some condition
-       setTimeout(() => {
-        navigate('/');
-      }, 1000); 
+      const formData = new FormData();
+    formData.append('image', data.image[0]); // Assuming 'image' is the key for your image data
+
+    // Append other form data properties if needed
+    formData.append('firstName', data.firstName);
+    formData.append('lastName', data.lastName)
+    formData.append('fatherName', data.fatherName)
+    formData.append('motherName', data.motherName)
+    formData.append('phone', data.phone)
+    formData.append('in_class', data.in_class)
+    formData.append('age', data.age)
+    formData.append('nationality', data.nationality)
+    formData.append('birthdate', data.birthdate)
+    formData.append('email', data.email)
+    formData.append('zipCode', data.zipCode)
+    formData.append('faculity', data.faculity)
+    formData.append('country', data.country)
+    formData.append('state', data.state)
+    formData.append('address', data.address)
+
+    const response = await axios.post('https://walaadashboard.pythonanywhere.com/api/students/', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data', // Important for file uploads
+      },
+    });
       
       // Handle the API response as needed
       console.log(response.data);
+      setTimeout(() => {
+        navigate('/');
+      }, 1000);
+
     } catch (error) {
-      // Handle API error
-      console.error('Error submitting data:', error);
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        console.error('Server responded with error data:', error.response.data);
+        console.error('Status code:', error.response.status);
+        console.error('Headers:', error.response.headers);
+      } else if (error.request) {
+        // The request was made but no response was received
+        console.error('No response received from the server');
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.error('Error setting up the request:', error.message);
+      }
     }
-  };
-  
+  }
   const handleCloseSnackbar = () => {
     setOpenSnackbar(false);
   };
@@ -94,10 +132,20 @@ export default function AddStudent() {
     <form className='container' onSubmit={handleSubmit(onSubmit)}>
      <h1 className=' display-5 text-center m-5'>Add a Student</h1>
      <div className='d-flex '>
-      <div style={{flexBasis:'30%'}}>
-        <img />
+      <div style={{flexBasis:'10%'}}>
+      <div>
+        <label htmlFor="image">Image</label>
+        <input   control={control}
+ type='file'
+  name='image' onChange={(e) => {
+     setValue('image', e.target.files);
+                }}/>
+       
       </div>
-      <div style={{flexBasis:'70%'}}>
+
+     
+      </div>
+      <div style={{flexBasis:'90%'}}>
       <div className='d-flex'>
         <TextField
           label="First Name*"

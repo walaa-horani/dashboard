@@ -27,6 +27,7 @@ const EditStudent = () => {
       country:"",
       state:"",
       faculity:"",
+      image:"",
     });
     
     const [errors, setErrors] = useState({
@@ -209,7 +210,11 @@ const EditStudent = () => {
   return (
     <div><form onSubmit={handleSubmit} className='container' >
     <h1 className=' display-5 text-center m-5'>Edit a Student</h1>
-    <img src={`https://walaadashboard.pythonanywhere.com/api/${data.image}`} />
+    <div className='d-flex'>
+      <div style={{flexBasis:'20%', marginRight:'20px'}}>
+    <img style={{borderRadius:'50%'}} src={data.image} />
+    </div>
+    <div style={{flexBasis:'80%'}}>
 <div className='d-flex'>
        <TextField
          label="firstName"
@@ -585,7 +590,9 @@ InputLabelProps={{ shrink: true, className: currentTheme === 'dark' ? 'text-ligh
         </Alert>
       </Snackbar>
      
-      
+      </div>
+      </div>
+  
    </form></div>
   )
 }
