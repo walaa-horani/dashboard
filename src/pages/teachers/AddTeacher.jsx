@@ -8,7 +8,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import { useThemeProvider } from '../../utils/ThemeContext';
-
+import Avatar from 'react-avatar';
+import avatar from '../../../src/images/avatar.avif'
 const validationSchema = yup.object({
   firstName: yup.string().required('First Name is required'),
   lastName: yup.string().required('Last Name is required'),
@@ -24,6 +25,11 @@ const validationSchema = yup.object({
   faculity: yup.string().required('Faculity is required'),
   country: yup.string().required('Country Date is required'),
   state: yup.string().required('State is required'),
+  image: yup.mixed().test('fileSize', 'File size is too large', (value) => {
+    if (!value.length) return true; // no file
+    return value[0].size <= 1024 * 1024; // 1MB limit
+  }),
+
 });
 
 const useYupValidationResolver = (validationSchema) =>
@@ -58,44 +64,114 @@ const useYupValidationResolver = (validationSchema) =>
   );
 
 export default function AddStudent() {
-  const { handleSubmit, register, formState: { errors } } = useForm({
+  const { handleSubmit, register,control,setValue, formState: { errors } } = useForm({
     resolver: useYupValidationResolver(validationSchema),
   });
+
   const navigate = useNavigate()
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const { currentTheme } = useThemeProvider();
+  const [selectedImage, setSelectedImage] = useState(null);
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    console.log('File:', file);
 
+    // Update FormData with the selected file
+   
+    
+    // Display the selected image in the Avatar component
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setSelectedImage(reader.result);
+    };
+    reader.readAsDataURL(file);
+
+    setValue('image', file);
+  };
   const onSubmit = async (data) => {
-    console.log('Data being sent:', data);
-
+    console.log('Data being sent:', data); // Add this line to inspect the data being sent
     try {
-      // Open the Snackbar before making the API call
       setOpenSnackbar(true);
 
-      // Make API call using axios
-      const response = await axios.post('https://walaadashboard.pythonanywhere.com/api/teachers/', data);
+      const formData = new FormData();
+    formData.append('image', data.image); // Assuming 'image' is the key for your image data
+    console.log(formData);
 
+    // Append other form data properties if needed
+    formData.append('firstName', data.firstName);
+    formData.append('lastName', data.lastName)
+    formData.append('fatherName', data.fatherName)
+    formData.append('motherName', data.motherName)
+    formData.append('phone', data.phone)
+    formData.append('in_class', data.in_class)
+    formData.append('age', data.age)
+    formData.append('nationality', data.nationality)
+    formData.append('birthdate', data.birthdate)
+    formData.append('email', data.email)
+    formData.append('zipCode', data.zipCode)
+    formData.append('faculity', data.faculity)
+    formData.append('country', data.country)
+    formData.append('state', data.state)
+    formData.append('address', data.address)
+
+    const response = await axios.post('https://walaadashboard.pythonanywhere.com/api/teachers/', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data', // Important for file uploads
+      },
+    });
+      
       // Handle the API response as needed
       console.log(response.data);
-
-      // Navigate after a delay or based on some condition
       setTimeout(() => {
         navigate('/teachers');
-      }, 1000); // Adjust the delay as needed
+      }, 1000);
+
     } catch (error) {
-      // Handle API error
-      console.error('Error submitting data:', error);
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        console.error('Server responded with error data:', error.response.data);
+        console.error('Status code:', error.response.status);
+        console.error('Headers:', error.response.headers);
+      } else if (error.request) {
+        // The request was made but no response was received
+        console.error('No response received from the server');
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.error('Error setting up the request:', error.message);
+      }
     }
-  };
+  }
 
   const handleCloseSnackbar = () => {
     setOpenSnackbar(false);
   };
-  
+
 
   return (
-    <form className='container' onSubmit={handleSubmit(onSubmit)}>
+    <form className='container' onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
      <h1 className=' display-5 text-center m-5'>Add a Teacher</h1>
+     <div className='d-flex '>
+      <div style={{flexBasis:'20%'}}>
+        <Avatar
+            src={selectedImage || avatar}
+          size="100"
+          round
+          
+          onClick={() => document.getElementById('avatar-input').click()}
+        />
+        <input
+  id="avatar-input"
+  type="file"
+  name="image"
+  onChange={handleImageChange}
+  style={{ display: 'none' }}
+/>
+
+
+     
+      </div>
+      <div style={{flexBasis:'80%'}}>
       <div className='d-flex'>
         <TextField
           label="First Name*"
@@ -341,6 +417,8 @@ export default function AddStudent() {
           Created Successfully!
         </Alert>
       </Snackbar>
+      </div>
+      </div>
     </form>
   );
 }
