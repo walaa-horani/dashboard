@@ -1,6 +1,6 @@
 import React, { useCallback ,useState } from 'react';
-import { useForm, Controller } from 'react-hook-form';
-import { TextField, Button  } from '@mui/material';
+import { useForm } from 'react-hook-form';
+import { TextField, Button } from '@mui/material';
 import * as yup from 'yup';
 import axios from 'axios';
 import { Icon } from '@iconify/react';
@@ -8,8 +8,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import { useThemeProvider } from '../../utils/ThemeContext';
-import Avatar from '@mui/material/Avatar';
-
+import Avatar from 'react-avatar';
+import avatar from '../../../src/images/avatar.avif'
 const validationSchema = yup.object({
   firstName: yup.string().required('First Name is required'),
   lastName: yup.string().required('Last Name is required'),
@@ -67,17 +67,35 @@ export default function AddStudent() {
   const { handleSubmit, register,control,setValue, formState: { errors } } = useForm({
     resolver: useYupValidationResolver(validationSchema),
   });
+
   const navigate = useNavigate()
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const { currentTheme } = useThemeProvider();
+  const [selectedImage, setSelectedImage] = useState(null);
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    console.log('File:', file);
 
+    // Update FormData with the selected file
+   
+    
+    // Display the selected image in the Avatar component
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setSelectedImage(reader.result);
+    };
+    reader.readAsDataURL(file);
+
+    setValue('image', file);
+  };
   const onSubmit = async (data) => {
     console.log('Data being sent:', data); // Add this line to inspect the data being sent
     try {
       setOpenSnackbar(true);
 
       const formData = new FormData();
-    formData.append('image', data.image[0]); // Assuming 'image' is the key for your image data
+    formData.append('image', data.image); // Assuming 'image' is the key for your image data
+    console.log(formData);
 
     // Append other form data properties if needed
     formData.append('firstName', data.firstName);
@@ -124,28 +142,36 @@ export default function AddStudent() {
       }
     }
   }
+
   const handleCloseSnackbar = () => {
     setOpenSnackbar(false);
   };
 
+
   return (
-    <form className='container' onSubmit={handleSubmit(onSubmit)}>
+    <form className='container' onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
      <h1 className=' display-5 text-center m-5'>Add a Student</h1>
      <div className='d-flex '>
-      <div style={{flexBasis:'10%'}}>
-      <div>
-        <label htmlFor="image">Image</label>
-        <input   control={control}
- type='file'
-  name='image' onChange={(e) => {
-     setValue('image', e.target.files);
-                }}/>
-       
-      </div>
+      <div style={{flexBasis:'20%'}}>
+        <Avatar
+            src={selectedImage || avatar}
+          size="100"
+          round
+          
+          onClick={() => document.getElementById('avatar-input').click()}
+        />
+        <input
+  id="avatar-input"
+  type="file"
+  name="image"
+  onChange={handleImageChange}
+  style={{ display: 'none' }}
+/>
+
 
      
       </div>
-      <div style={{flexBasis:'90%'}}>
+      <div style={{flexBasis:'80%'}}>
       <div className='d-flex'>
         <TextField
           label="First Name*"

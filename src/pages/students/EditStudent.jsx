@@ -28,6 +28,7 @@ const EditStudent = () => {
       state:"",
       faculity:"",
       image:"",
+    
     });
     
     const [errors, setErrors] = useState({
@@ -45,6 +46,7 @@ const EditStudent = () => {
       country:"",
       state:"",
       faculity:"",
+     
     });
 
     const validateForm = () => {
@@ -169,24 +171,34 @@ const EditStudent = () => {
    
     function handleSubmit(e) {
       e.preventDefault();
-    
+    const formData = new FormData();
+    const { image, ...postData } = data;
+
+for (const key in postData) {
+  formData.append(key, postData[key]);
+}
       // Validate the form
       const formIsValid = validateForm();
     
       if (formIsValid) {
        
         // If the form is valid, proceed with the axios request
-        axios.put(`https://walaadashboard.pythonanywhere.com/api/students/${id}/`, data)
-          .then(res => {
-            setOpenSnackbar(true);
-            setTimeout(() => {
-              navigate('/');
-            }, 1000);
-          })
-          .catch(error => {
-            // Handle error, if needed
-            console.error('Error updating information:', error);
-          });
+       axios.put(`https://walaadashboard.pythonanywhere.com/api/students/${id}/`, postData, {
+  headers: {
+    'Content-Type': 'multipart/form-data',
+  },
+}).then(res => {
+        setOpenSnackbar(true);
+        setTimeout(() => {
+          // Navigate to the home page
+          navigate('/');
+        }, 1000);
+      })
+      .catch(error => {
+        // Handle error, if needed
+        console.error('Error updating information:', error);
+      });
+ 
       }
     }
     const handleCloseSnackbar = () => {
@@ -212,7 +224,7 @@ const EditStudent = () => {
     <h1 className=' display-5 text-center m-5'>Edit a Student</h1>
     <div className='d-flex'>
       <div style={{flexBasis:'20%', marginRight:'20px'}}>
-    <img style={{borderRadius:'50%'}} src={data.image} />
+    <img style={{borderRadius:'50%', width:'100%',height:'20%',  objectFit:'cover'}} src={data.image} />
     </div>
     <div style={{flexBasis:'80%'}}>
 <div className='d-flex'>
