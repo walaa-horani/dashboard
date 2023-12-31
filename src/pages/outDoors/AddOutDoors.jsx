@@ -8,6 +8,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import { Select, MenuItem, FormControl, InputLabel, FormHelperText } from '@mui/material';
+import { useThemeProvider } from '../../utils/ThemeContext';
 
 const validationSchema = yup.object({
   teacher: yup.string().required('teacher is required'),
@@ -58,7 +59,8 @@ export default function AddPysics() {
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [teachers, setTeachers] = useState([]);
   const [students, setStudents] = useState([]);
-  
+  const { currentTheme } = useThemeProvider();
+
   const onSubmit = async (data) => {
     console.log('Data being sent:', data);
     try {
@@ -116,110 +118,126 @@ export default function AddPysics() {
 
   return (
     <form className='container' onSubmit={handleSubmit(onSubmit)}>
-     <h1 className=' display-5 text-center m-5'>Add  OutDoors Activity</h1>
-      <div className='d-flex'>
-    
+    <h1 className=' display-5 text-center m-5'>Add an outdoor activity</h1>
+     <div className='d-flex'>
+   
 
-<FormControl fullWidth margin="normal">
-      <InputLabel htmlFor="student-select">Student</InputLabel>
-      <Select
-        label="Student"
-        {...register('student')}
-        error={Boolean(errors.student)}
-        name="student"
-        
-        inputProps={{
-          id: 'student-select',
-        }}
-      >
-        {students.map((student) => (
-          <MenuItem key={student.id} value={student.id}>
-            {student.firstName} {/* Adjust this based on your student object structure */}
-          </MenuItem>
-        ))}
-      </Select>
-      <FormHelperText>{errors.student?.message}</FormHelperText>
-    </FormControl>
+     <FormControl className={currentTheme === 'dark' ? 'text-light' : ''} fullWidth margin="normal">
+     <InputLabel className={currentTheme === 'dark' ? 'text-light' : ''} htmlFor="student-select">Student</InputLabel>
+     <Select
+      style={{ marginRight: '10px' }}
+       label="Student"
+       {...register('student')}
+       error={Boolean(errors.student)}
+       name="student"
+       
+       inputProps={{
+         id: 'student-select',
+         className: currentTheme === 'dark' ? 'text-light border border-light' : '',
 
-    <FormControl fullWidth margin="normal">
-      <InputLabel htmlFor="teacher-select">Teacher</InputLabel>
-      <Select
-        label="Teacher"
-      
-        {...register('teacher')}
-        error={Boolean(errors.teacher)}
-        name="teacher"
-        
-        inputProps={{
-          id: 'teacher-select',
-        }}
-      >
-        {teachers.map((teacher) => (
-          <MenuItem key={teacher.id} value={teacher.id}>
-            {teacher.firstName} {/* Adjust this based on your student object structure */}
-          </MenuItem>
-        ))}
-      </Select>
-    
-    </FormControl>
-
-        
-      </div>
-      <div className='d-flex'>
-        <TextField
-        type='time'
-          label="time"
-          {...register('time')}
-          error={Boolean(errors.time)}
-          helperText={errors.time?.message}
-          fullWidth
-          margin="normal"
-          style={{marginRight:'10px'}}
-          name='time'
-          InputLabelProps={{ shrink: true }}
-        />
-
-        <TextField
-          label="date"
-          type='date'
-          {...register('date')}
-          error={Boolean(errors.date)}
-          helperText={errors.date?.message}
-          fullWidth
-          InputLabelProps={{ shrink: true }}
-          margin="normal"
-          style={{marginRight:'10px'}}
-          name='date'        />
-        
-      </div>
-      <div className='d-flex'>
-    
-      <TextField
-          label="place"
-          {...register('place')}
-          error={Boolean(errors.place)}
-          helperText={errors.place?.message}
          
-          margin="normal"
-          style={{width:'50%'}}
-          name='place'
-        />
+         
+       }}
+     >
+       {students.map((student) => (
+         <MenuItem  key={student.id} value={student.id} >
+         <p > {student.firstName} {student.lastName}</p>   {/* Adjust this based on your student object structure */}
+         </MenuItem>
+       ))}
+     </Select>
+     <FormHelperText>{errors.student?.message}</FormHelperText>
+   </FormControl>
+
+   <FormControl   fullWidth margin="normal">
+     <InputLabel  className={currentTheme === 'dark' ? 'text-light' : ''} htmlFor="teacher-select">Teacher</InputLabel>
+     <Select
+       label="Teacher"
+     
+       {...register('teacher')}
+       error={Boolean(errors.teacher)}
+       name="teacher"
+       
+       inputProps={{
+         id: 'teacher-select',
+         className: currentTheme === 'dark' ? 'text-light border border-light' : '',
+
+       }}
+     >
+       {teachers.map((teacher) => (
+         <MenuItem key={teacher.id} value={teacher.id}>
+           {teacher.firstName} {/* Adjust this based on your student object structure */}
+         </MenuItem>
+       ))}
+     </Select>
+   
+   </FormControl>
+
+       
+     </div>
+     <div className='d-flex'>
+       <TextField
+       type='time'
+         label="time"
+         {...register('time')}
+         error={Boolean(errors.time)}
+         helperText={errors.time?.message}
+         fullWidth
+         margin="normal"
+         style={{marginRight:'10px'}}
+         name='time'
+         InputLabelProps={{ shrink: true, className: currentTheme === 'dark' ? 'text-light' : '' }}
+         InputProps={{ className: currentTheme === 'dark' ? ' border border-light text-light' : '' }}
+     
+       />
+
+       <TextField
+         label="date"
+         type='date'
+         {...register('date')}
+         error={Boolean(errors.date)}
+         helperText={errors.date?.message}
+         fullWidth
+         
+         margin="normal"
+         style={{marginRight:'10px'}}
+         name='date' 
+         InputLabelProps={{ shrink: true, className: currentTheme === 'dark' ? 'text-light' : '' }}
+         InputProps={{ className: currentTheme === 'dark' ? ' border border-light text-light' : '' }}
+
+         />
+         
+       
+     </div>
+     <div className='d-flex'>
+   
+     <TextField
+         label="place"
+         {...register('place')}
+         error={Boolean(errors.place)}
+         helperText={errors.place?.message}
+         InputLabelProps={{ shrink: true, className: currentTheme === 'dark' ? 'text-light' : '' }}
+         InputProps={{ className: currentTheme === 'dark' ? ' border border-light text-light' : '' }}
+
+         margin="normal"
+         style={{width:'50%'}}
+         name='place'
+       />
 </div>
 
 
 
 
 
-     
+    
 <Button type="submit" variant="contained" color="primary">
-        Add <Icon style={{ marginLeft: '6px' }} icon="ic:baseline-plus" />
-      </Button>
+       Add <Icon style={{ marginLeft: '6px' }} icon="ic:baseline-plus" />
+     </Button>
 
-      <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
-        <Alert variant="filled" onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
-          Created Successfully!
-        </Alert>
-      </Snackbar>
-    </form>
+     <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
+       <Alert variant="filled" onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
+         Created Successfully!
+       </Alert>
+     </Snackbar>
+   </form>
   );
 }

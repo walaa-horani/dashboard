@@ -8,6 +8,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import { Select, MenuItem, FormControl, InputLabel, FormHelperText } from '@mui/material';
+import { useThemeProvider } from '../../utils/ThemeContext';
 
 const validationSchema = yup.object({
   teacher: yup.string().required('teacher is required'),
@@ -58,7 +59,8 @@ export default function AddPysics() {
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [teachers, setTeachers] = useState([]);
   const [students, setStudents] = useState([]);
-  
+  const { currentTheme } = useThemeProvider();
+
   const onSubmit = async (data) => {
     setOpenSnackbar(true);
     console.log('Data being sent:', data);
@@ -111,9 +113,10 @@ export default function AddPysics() {
       <div className='d-flex'>
     
 
-<FormControl fullWidth margin="normal">
-      <InputLabel htmlFor="student-select">Student</InputLabel>
+      <FormControl className={currentTheme === 'dark' ? 'text-light' : ''} fullWidth margin="normal">
+      <InputLabel className={currentTheme === 'dark' ? 'text-light' : ''} htmlFor="student-select">Student</InputLabel>
       <Select
+       style={{ marginRight: '10px' }}
         label="Student"
         {...register('student')}
         error={Boolean(errors.student)}
@@ -121,19 +124,23 @@ export default function AddPysics() {
         
         inputProps={{
           id: 'student-select',
+          className: currentTheme === 'dark' ? 'text-light border border-light' : '',
+
+          
+          
         }}
       >
         {students.map((student) => (
-          <MenuItem key={student.id} value={student.id}>
-            {student.firstName} {/* Adjust this based on your student object structure */}
+          <MenuItem  key={student.id} value={student.id} >
+          <p > {student.firstName} {student.lastName}</p>   {/* Adjust this based on your student object structure */}
           </MenuItem>
         ))}
       </Select>
       <FormHelperText>{errors.student?.message}</FormHelperText>
     </FormControl>
 
-    <FormControl fullWidth margin="normal">
-      <InputLabel htmlFor="teacher-select">Teacher</InputLabel>
+    <FormControl   fullWidth margin="normal">
+      <InputLabel  className={currentTheme === 'dark' ? 'text-light' : ''} htmlFor="teacher-select">Teacher</InputLabel>
       <Select
         label="Teacher"
       
@@ -143,6 +150,8 @@ export default function AddPysics() {
         
         inputProps={{
           id: 'teacher-select',
+          className: currentTheme === 'dark' ? 'text-light border border-light' : '',
+
         }}
       >
         {teachers.map((teacher) => (
@@ -167,7 +176,9 @@ export default function AddPysics() {
           margin="normal"
           style={{marginRight:'10px'}}
           name='time'
-          InputLabelProps={{ shrink: true }}
+          InputLabelProps={{ shrink: true, className: currentTheme === 'dark' ? 'text-light' : '' }}
+          InputProps={{ className: currentTheme === 'dark' ? ' border border-light text-light' : '' }}
+      
         />
 
         <TextField
@@ -177,10 +188,15 @@ export default function AddPysics() {
           error={Boolean(errors.date)}
           helperText={errors.date?.message}
           fullWidth
-          InputLabelProps={{ shrink: true }}
+          
           margin="normal"
           style={{marginRight:'10px'}}
-          name='date'        />
+          name='date' 
+          InputLabelProps={{ shrink: true, className: currentTheme === 'dark' ? 'text-light' : '' }}
+          InputProps={{ className: currentTheme === 'dark' ? ' border border-light text-light' : '' }}
+
+          />
+          
         
       </div>
       <div className='d-flex'>
@@ -190,7 +206,9 @@ export default function AddPysics() {
           {...register('place')}
           error={Boolean(errors.place)}
           helperText={errors.place?.message}
-         
+          InputLabelProps={{ shrink: true, className: currentTheme === 'dark' ? 'text-light' : '' }}
+          InputProps={{ className: currentTheme === 'dark' ? ' border border-light text-light' : '' }}
+
           margin="normal"
           style={{width:'50%'}}
           name='place'

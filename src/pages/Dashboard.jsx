@@ -128,6 +128,7 @@ function Dashboard() {
       <th style={{fontSize:'13px', color:'#6f42c1'}}>Class</th>
       <th style={{fontSize:'13px', color:'#6f42c1'}}>Phone</th>
       <th style={{fontSize:'13px', color:'#6f42c1'}}>Nationality</th>
+      <th style={{fontSize:'13px', color:'#6f42c1'}}>image</th>
 
     </tr>
   </thead>
@@ -140,7 +141,7 @@ function Dashboard() {
             <td>{student.in_class}</td>
             <td>{student.phone}</td>
             <td>{student.nationality}</td>
-            
+            <td><img style={{borderRadius:'50%',width:'50px', height:'50px', objectFit:'cover'}} src={student.image}/>  </td>
            <td style={{width:'50px'}}> <Link to={`/EditStudent/${student.id}`}><Icon style={{fontSize:'24px'}} icon="openmoji:edit" /></Link></td>
            <td  style={{ fontSize:'24px',width:'50px'}} > <button onClick={() => handleClickOpen(student.id)} ><Icon   icon="flat-color-icons:delete-row" /></button></td>
            <td style={{width:'50px', fontSize:'24px'}}> <Link to={`/studentDetails/${student.id}`}><Icon icon="lets-icons:view-fill" /></Link></td>

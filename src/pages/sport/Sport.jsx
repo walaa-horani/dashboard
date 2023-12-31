@@ -10,6 +10,7 @@ import Banner from '../../partials/Banner';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import { useThemeProvider } from '../../utils/ThemeContext';
 
 function Sport() {
 
@@ -19,6 +20,7 @@ function Sport() {
   const [open, setOpen] = useState(false);
   const [idToDelete, setIdToDelete] = useState(null);
   const navigate = useNavigate()
+  const { currentTheme } = useThemeProvider();
 
   const handleClickOpen = (id) => {
     setIdToDelete(id);
@@ -109,8 +111,8 @@ function Sport() {
   </thead>
   <tbody>
         {sport.map((sport) => (
-          <tr className='text-center' key={sport.id}>
-            <td >{sport.student} </td>
+  <tr className={` text-center ${currentTheme === 'dark' ? 'text-light' : ''}`} key={sport.id}>
+  <td >{sport.student} </td>
             
             <td>{sport.teacher}</td>
            

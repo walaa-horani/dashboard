@@ -224,7 +224,7 @@ for (const key in postData) {
     <h1 className=' display-5 text-center m-5'>Edit a Teacher</h1>
     <div className='d-flex'>
       <div style={{flexBasis:'20%', marginRight:'20px'}}>
-    <img style={{borderRadius:'50%', width:'100%',height:'20%',  objectFit:'cover'}} src={data.image} />
+    <img style={{borderRadius:'50%', width:'70%',height:'30%',  objectFit:'cover'}} src={data.image} />
     </div>
     <div style={{flexBasis:'80%'}}>
 <div className='d-flex'>

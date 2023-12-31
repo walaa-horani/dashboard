@@ -10,6 +10,7 @@ import Banner from '../../partials/Banner';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import { useThemeProvider } from '../../utils/ThemeContext';
 
 function OutDoors() {
 
@@ -19,6 +20,7 @@ function OutDoors() {
   const [open, setOpen] = useState(false);
   const [idToDelete, setIdToDelete] = useState(null);
   const navigate = useNavigate()
+  const { currentTheme } = useThemeProvider();
 
   const handleClickOpen = (id) => {
     setIdToDelete(id);
@@ -109,8 +111,8 @@ function OutDoors() {
   </thead>
   <tbody>
         {outdoors.map((outdoors) => (
-          <tr className='text-center' key={outdoors.id}>
-            <td >{outdoors.student} </td>
+  <tr className={` text-center ${currentTheme === 'dark' ? 'text-light' : ''}`} key={outdoors.id}>
+  <td >{outdoors.student} </td>
             
             <td>{outdoors.teacher}</td>
            

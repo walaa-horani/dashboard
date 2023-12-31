@@ -25,10 +25,8 @@ const validationSchema = yup.object({
   faculity: yup.string().required('Faculity is required'),
   country: yup.string().required('Country Date is required'),
   state: yup.string().required('State is required'),
-  image: yup.mixed().test('fileSize', 'File size is too large', (value) => {
-    if (!value.length) return true; // no file
-    return value[0].size <= 1024 * 1024; // 1MB limit
-  }),
+  image: yup.mixed().required('image is required'),
+
 
 });
 
@@ -157,7 +155,8 @@ export default function AddStudent() {
             src={selectedImage || avatar}
           size="100"
           round
-          
+          error
+          helperText={errors.image?.message}
           onClick={() => document.getElementById('avatar-input').click()}
         />
         <input
@@ -166,8 +165,10 @@ export default function AddStudent() {
   name="image"
   onChange={handleImageChange}
   style={{ display: 'none' }}
+  error
+  helperText={errors.image?.message}
 />
-
+<p className='text-danger'>image is required</p>
 
      
       </div>
