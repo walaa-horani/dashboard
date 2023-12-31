@@ -1,14 +1,11 @@
 {
-  "homepage":"http://walaa-horani.github.io/dashboard",
   "name": "mosaic-react",
   "version": "0.1.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview",
-    "predeploy": "vite build",
-    "deploy": "gh-pages -d build"
+    "preview": "vite preview"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
