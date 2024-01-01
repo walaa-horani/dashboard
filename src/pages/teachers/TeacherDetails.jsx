@@ -54,16 +54,16 @@ const TeacherDetails = () => {
     
     </div>
     </div>
-                  <div className='d-flex '>
+                  <div className='d-flex align-items-center '>
                   
-                   <div >
-                   img
+                  
+                   <img style={{borderRadius:'50%', width:'10%', height:'90%', objectFit:'cover'}} src={data.image}/>
                 
-                   </div>
+                   
                      
                    <div >
     
-                        fdfffff
+                        <strong style={{marginLeft:'20px'}}>{data.firstName} {data.lastName}</strong>
                    </div>
                    
                    </div>

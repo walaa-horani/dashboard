@@ -77,19 +77,19 @@ const StudentDetails = () => {
 
 </div>
 </div>
-              <div className='d-flex '>
-              
-               <div >
-               img
-            
-               </div>
-                 
-               <div >
-
-                    fdfffff
-               </div>
+<div className='d-flex align-items-center '>
+                  
+                  
+                  <img style={{borderRadius:'50%', width:'10%', height:'90%', objectFit:'cover'}} src={data.image}/>
                
-               </div>
+                  
+                    
+                  <div >
+   
+                       <strong style={{marginLeft:'20px'}}>{data.firstName} {data.lastName}</strong>
+                  </div>
+                  
+                  </div>
             <div className='d-flex   mt-5'>
                 <div style={{width:'100%'}}>
 
