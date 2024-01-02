@@ -1,0 +1,5 @@
+@media only screen and (max-width: 300px) {
+    .block-query {
+      display: block !important;
+    }
+  }

@@ -87,10 +87,13 @@ function Dashboard() {
             <div className="container w-100">
             <div className='d-flex  justify-content-between'>
             <div style={{float:'right'}}>
-                <button style={{float:'right'}} className="btn mb-5 bg-indigo-500 hover:bg-indigo-600 text-white">
+             <Link to={'/AddStudent'}> 
+             
+              <button style={{    height: '57px',float:'right',marginRight:'15px'}} className="btn mb-5 bg-indigo-500 hover:bg-indigo-600 text-white">
                     <svg className="w-4 h-4 fill-current opacity-50 shrink-0" viewBox="0 0 16 16">
                         <path d="M15 7H9V1c0-.6-.4-1-1-1S7 .4 7 1v6H1c-.6 0-1 .4-1 1s.4 1 1 1h6v6c0 .6.4 1 1 1s1-.4 1-1V9h6c.6 0 1-.4 1-1s-.4-1-1-1z" />
                     </svg>
+                    
                     <Link
       to="/AddStudent"
       className="hidden xs:block ml-2"
@@ -100,6 +103,7 @@ function Dashboard() {
       Add Student
     </Link>      
      </button>  
+     </Link> 
       </div>  
       <div>
 
@@ -119,6 +123,8 @@ function Dashboard() {
       </div>
           
           </div>
+          <div style={{ overflowX: 'auto' }}>
+
             <table class="table table-striped">
   <thead>
     <tr className='text-center'>
@@ -166,7 +172,7 @@ function Dashboard() {
         ))}
       </tbody>
 </table>
-              
+</div>        
               
             </div>
 
